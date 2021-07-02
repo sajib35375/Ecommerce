@@ -70,6 +70,21 @@ $route = Route::current()->getName();
             </ul>
         </li>
 
+        <li class="treeview">
+            <a href="#">
+                <i data-feather="file"></i>
+                <span>Sliders</span>
+                <span class="pull-right-container">
+              <i class="fa fa-angle-right pull-right"></i>
+            </span>
+            </a>
+            <ul class="treeview-menu">
+                <li class="{{ $route=='slider.show'?'active':'' }}"><a href="{{ route('slider.show') }}"><i class="ti-more"></i>Manage Sliders</a></li>
+
+
+            </ul>
+        </li>
+
         <li class="header nav-small-cap">User Interface</li>
 
         <li class="treeview">

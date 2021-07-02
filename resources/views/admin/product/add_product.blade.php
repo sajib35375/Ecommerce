@@ -226,6 +226,7 @@
                                                         <h5> Product Thumbnail <span class="text-danger">*</span></h5>
 
                                                         <input type="file" name="product_thumbnail" class="form-control-file" >
+
                                                         <img  id="image" src="" alt="">
                                                         @error('product_thumbnail')
                                                         <span class="text-danger">{{ $message }}</span>

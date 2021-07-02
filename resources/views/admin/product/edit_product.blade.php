@@ -232,6 +232,7 @@
                                                 <h5> Product Thumbnail <span class="text-danger">*</span></h5>
 
                                                 <input type="file" name="product_thumbnail" class="form-control-file" >
+                                                <input type="hidden" name="old_photo" value="{{ $products->product_thumbnail }}" >
                                                 <img style="width: 100px;height: 100px;"  id="image" src="{{ asset($products->product_thumbnail) }}" alt="">
                                                 @error('product_thumbnail')
                                                 <span class="text-danger">{{ $message }}</span>

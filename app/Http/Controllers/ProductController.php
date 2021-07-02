@@ -105,7 +105,12 @@ class ProductController extends Controller
         $unique_name = hexdec(uniqid()).'.'.$image->getClientOriginalExtension();
         Image::make($image)->resize(917,1000)->save('images/thumbnail/'.$unique_name);
         $url_path = "images/thumbnail/".$unique_name;
+        if (file_exists($url_path)){
+            unlink($request->old_photo);
 
+        }else{
+            $url_path = "images/thumbnail/".$request->old_photo;
+        }
 
 
 

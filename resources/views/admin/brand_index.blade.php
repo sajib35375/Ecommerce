@@ -85,7 +85,7 @@
                              @enderror
                          </div>
                          <div class="form-group">
-                             <input value="Add" class="btn btn-success btn-sm" type="submit">
+                             <input value="Add" class="btn btn-success" type="submit">
                          </div>
                      </form>
                  </div>
@@ -101,7 +101,7 @@
           </div>
 
        </div>
-       </div>
+
    </section>
 
 

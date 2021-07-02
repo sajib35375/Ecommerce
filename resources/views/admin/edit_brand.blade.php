@@ -28,7 +28,7 @@
                             <input name="image" class="form-control-file" value="{{ $edit_brand->brand_image }}" type="file">
                         </div>
                         <div class="form-group">
-                            <input value="Add" class="btn btn-success btn-sm" type="submit">
+                            <input value="update" class="btn btn-success" type="submit">
                         </div>
                     </form>
                 </div>

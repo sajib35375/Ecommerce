@@ -39,10 +39,19 @@
                                             <td>{{ $product->product_color_eng }}</td>
                                             <td>{{ $product->product_selling_price }}</td>
                                             <td>
+                                                @if($product->product_discount_price)
+                                                    @php
+                                                        $discount = ($product->product_selling_price) - ($product->product_discount_price);
+                                                    @endphp
+                                                @else
+                                                    @php
+                                                        $discount = ($product->product_selling_price) - ($product->product_selling_price);
+                                                    @endphp
+                                                @endif
                                                 @php
-                                                $discount = ($product->product_selling_price) - ($product->product_discount_price);
                                                 $amount = ($discount / $product->product_selling_price)*100;
                                                 @endphp
+
                                                 {{ round($amount) }}%
                                             </td>
                                             <td>

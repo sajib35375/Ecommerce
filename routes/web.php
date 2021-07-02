@@ -9,9 +9,21 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
-Route::group(['prefix'=>'admin','middleware'=>['admin:admin']],function(){
-    Route::get('/login',[App\Http\Controllers\AdminController::class,'loginForm'])->name('admin.login');
-    Route::post('/login',[App\Http\Controllers\AdminController::class,'store'])->name('admin.store');
+Route::get('admin/login',[App\Http\Controllers\AdminController::class,'loginForm'])->name('admin.login');
+Route::post('admin/login',[App\Http\Controllers\AdminController::class,'store'])->name('admin.store');
+
+Route::group(['middleware'=>['auth:admin']],function(){
+
+    //Admin Route
+    Route::middleware(['auth:sanctum,admin', 'verified'])->get('/admin/dashboard', function () {
+        return view('admin.index');
+    })->name('admin.dashboard');
+    Route::get('admin/logout',[App\Http\Controllers\AdminController::class,'destroy'])->name('admin.logout');
+    Route::get('admin/profile',[App\Http\Controllers\AdminProfileController::class,'AdminProfile'])->name('admin.profile');
+    Route::get('admin/profile/edit',[App\Http\Controllers\AdminProfileController::class,'AdminProfileEdit'])->name('admin.profile.edit');
+    Route::post('admin/profile/update',[App\Http\Controllers\AdminProfileController::class,'AdminProfileUpdate'])->name('admin.profile.update');
+    Route::get('admin/password/change',[App\Http\Controllers\AdminProfileController::class,'AdminPasswordChange'])->name('admin.password.change');
+    Route::post('admin/password/update',[App\Http\Controllers\AdminProfileController::class,'AdminPasswordUpdate'])->name('admin.password.update');
 });
 
 
@@ -21,16 +33,8 @@ Route::middleware(['auth:sanctum,web', 'verified'])->get('/dashboard', function 
     $user_profile = User::find(Auth::user()->id);
     return view('dashboard',compact('user_profile'));
 })->name('dashboard');
-//Admin Route
-Route::middleware(['auth:sanctum,admin', 'verified'])->get('/admin/dashboard', function () {
-    return view('admin.index');
-})->name('dashboard');
-Route::get('admin/logout',[App\Http\Controllers\AdminController::class,'destroy'])->name('admin.logout');
-Route::get('admin/profile',[App\Http\Controllers\AdminProfileController::class,'AdminProfile'])->name('admin.profile');
-Route::get('admin/profile/edit',[App\Http\Controllers\AdminProfileController::class,'AdminProfileEdit'])->name('admin.profile.edit');
-Route::post('admin/profile/update',[App\Http\Controllers\AdminProfileController::class,'AdminProfileUpdate'])->name('admin.profile.update');
-Route::get('admin/password/change',[App\Http\Controllers\AdminProfileController::class,'AdminPasswordChange'])->name('admin.password.change');
-Route::post('admin/password/update',[App\Http\Controllers\AdminProfileController::class,'AdminPasswordUpdate'])->name('admin.password.update');
+
+
 //frontend route
 Route::get('/',[App\Http\Controllers\HomeController::class,'index'])->name('home.index');
 Route::get('/logout',[App\Http\Controllers\HomeController::class,'logout'])->name('home.logout');
@@ -76,6 +80,22 @@ Route::get('delete/multiImg/{id}',[App\Http\Controllers\ProductController::class
 Route::get('delete/product/{id}',[App\Http\Controllers\ProductController::class,'deleteProduct'])->name('delete.product');
 Route::get('active/product/{id}',[App\Http\Controllers\ProductController::class,'activeProduct'])->name('active.product');
 Route::get('inactive/product/{id}',[App\Http\Controllers\ProductController::class,'inactiveProduct'])->name('inactive.product');
+
+//Sliders
+Route::get('slider/show',[App\Http\Controllers\SliderController::class,'SliderShow'])->name('slider.show');
+Route::post('slider/store',[App\Http\Controllers\SliderController::class,'SliderStore'])->name('slider.store');
+Route::get('slider/edit/{id}',[App\Http\Controllers\SliderController::class,'SliderEdit'])->name('slider.edit');
+Route::post('slider/update/{id}',[App\Http\Controllers\SliderController::class,'SliderUpdate'])->name('slider.update');
+Route::get('status/active/{id}',[App\Http\Controllers\SliderController::class,'StatusActive'])->name('status.active');
+Route::get('status/inactive/{id}',[App\Http\Controllers\SliderController::class,'StatusInactive'])->name('status.inactive');
+Route::get('slider/delete/{id}',[App\Http\Controllers\SliderController::class,'SliderDelete'])->name('slider.delete');
+//language
+Route::get('language/english',[App\Http\Controllers\LanguageController::class,'English'])->name('english.language');
+Route::get('language/bangla',[App\Http\Controllers\LanguageController::class,'Bangla'])->name('bangla.language');
+//product details
+Route::get('product/details/{id}',[App\Http\Controllers\HomeController::class,'ProductDetails'])->name('product.details');
+Route::get('tagwise/product/{tag}',[App\Http\Controllers\HomeController::class,'TagwiseProduct'])->name('tagwise.product');
+Route::get('catWise/product/{tag}',[App\Http\Controllers\HomeController::class,'catWiseProduct'])->name('catWise.product');
 
 
 
