@@ -96,8 +96,20 @@ class HomeController extends Controller
     }
     public function ProductDetails($id){
         $products = Product::find($id);
+
+        $color_eng = $products->product_color_eng;
+        $product_color_eng = explode(',',$color_eng);
+        $color_ban = $products->product_color_ban;
+        $product_color_ban = explode(',',$color_ban);
+
+        $size_eng = $products->product_size_eng;
+        $product_size_eng = explode(',',$size_eng);
+        $size_ban = $products->product_size_ban;
+        $product_size_ban = explode(',',$size_ban);
+
+        $related_product = Product::where('category_id',$products->category_id)->where('id','!=',$id)->get();
         $multi = MultiImg::where('product_id',$id)->get();
-        return view('frontend.product.product_details',compact('products','multi'));
+        return view('frontend.product.product_details',compact('products','multi','product_color_eng','product_color_ban','product_size_eng','product_size_ban','related_product'));
     }
     public function TagwiseProduct($tag){
         $tag_wise = Product::where('status',1)->where('product_tags_eng',$tag)->orWhere('product_tags_ban',$tag)->paginate(6);
@@ -105,9 +117,28 @@ class HomeController extends Controller
         return view('frontend.product.tagwise_product',compact('tag_wise','categories'));
     }
     public function catWiseProduct($id){
-        $cat_wise = Product::where('status',1)->where('subcategory_id',$id)->paginate(6);
+        $subcat_wise = Product::where('status',1)->where('subcategory_id',$id)->paginate(6);
         $categories = Category::all();
-        return view('frontend.product.categoryWise_product',compact('cat_wise','categories'));
+        return view('frontend.product.categoryWise_product',compact('subcat_wise','categories'));
     }
+    public function SubSubCatWise($id){
+        $subsubcat_wise = Product::where('status',1)->where('sub_subcategory_id',$id)->paginate(6);
+        $categories = Category::all();
+        return view('frontend.product.subsubcategory_wise',compact('subsubcat_wise','categories'));
+    }
+    public function addToCartShow($id){
+        $data = Product::with('category','brand')->find($id);
+       $color = $data->product_color_eng;
+        $product_color = explode(',',$color);
+
+        $size = $data->product_size_eng;
+         $product_size = explode(',',$size);
+         return response()->json(array(
+             'product' => $data,
+             'color' => $product_color,
+             'size' => $product_size
+         ));
+    }
+
 
 }

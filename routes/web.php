@@ -95,7 +95,12 @@ Route::get('language/bangla',[App\Http\Controllers\LanguageController::class,'Ba
 //product details
 Route::get('product/details/{id}',[App\Http\Controllers\HomeController::class,'ProductDetails'])->name('product.details');
 Route::get('tagwise/product/{tag}',[App\Http\Controllers\HomeController::class,'TagwiseProduct'])->name('tagwise.product');
-Route::get('catWise/product/{tag}',[App\Http\Controllers\HomeController::class,'catWiseProduct'])->name('catWise.product');
-
+Route::get('catWise/product/{id}',[App\Http\Controllers\HomeController::class,'catWiseProduct'])->name('catWise.product');
+Route::get('SubSubCatWise/product/{id}',[App\Http\Controllers\HomeController::class,'SubSubCatWise'])->name('SubSubCatWise.product');
+//add to cart
+Route::get('show/add_to_cart/{id}',[App\Http\Controllers\HomeController::class,'addToCartShow'])->name('add.to.cart');
+Route::post( 'AddToCart-store/{cart_id}',[App\Http\Controllers\CartController::class,'AddToCart'])->name('addTo.cart');
+Route::get( 'AddTo/MiniCart/',[App\Http\Controllers\CartController::class,'AddToMiniCart'])->name('addTo.miniCart');
+Route::get( 'remove/MiniCart/product/{rowId}',[App\Http\Controllers\CartController::class,'RemoveMiniCart'])->name('remove.miniCart');
 
 

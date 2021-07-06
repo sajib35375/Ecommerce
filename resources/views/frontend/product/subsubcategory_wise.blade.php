@@ -277,7 +277,7 @@
                             <!-- /.col -->
                             <div class="col col-sm-6 col-md-4 text-right">
                                 <div class="pagination-container">
-                               {{ $subcat_wise->links() }}
+                                {{ $subsubcat_wise->links() }}
                                 <!-- /.list-inline -->
                                 </div>
                                 <!-- /.pagination-container --> </div>
@@ -296,7 +296,7 @@
                                     <div class="row">
 
 
-                                        @foreach( $subcat_wise as $product )
+                                        @foreach( $subsubcat_wise as $product )
 
                                             <div class="col-sm-6 col-md-4 wow fadeInUp">
                                                 <div class="products">
@@ -367,7 +367,7 @@
                                 <div class="category-product">
 
 
-                                    @foreach( $subcat_wise as $product )
+                                    @foreach( $subsubcat_wise as $product )
                                         <div class="category-product-inner wow fadeInUp">
                                             <div class="products">
                                                 <div class="product-list product">
@@ -429,7 +429,7 @@
                     <div class="clearfix filters-container">
                         <div class="text-right">
                             <div class="pagination-container">
-                            {{ $subcat_wise->links() }}
+                            {{ $subsubcat_wise->links() }}
                             <!-- /.list-inline -->
                             </div>
                             <!-- /.pagination-container --> </div>

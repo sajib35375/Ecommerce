@@ -1,7 +1,7 @@
 
 @php
 
-$all_cat = \App\Models\Category::all();
+    $all_cat = \App\Models\Category::all();
 
 @endphp
 
@@ -34,7 +34,7 @@ $all_cat = \App\Models\Category::all();
                                         @endphp
                                         @foreach( $subsub_cat as $subsub )
                                             <ul class="links list-unstyled">
-                                                <li><a href="#">@if( session()->get('language')=='english' ){{ $subsub->sub_subcategory_name_eng }} @else {{ $subsub->sub_subcategory_name_bang }} @endif</a></li>
+                                                <li><a href="{{ route('SubSubCatWise.product',$subsub->id) }}">@if( session()->get('language')=='english' ){{ $subsub->sub_subcategory_name_eng }} @else {{ $subsub->sub_subcategory_name_bang }} @endif</a></li>
 
                                             </ul>
                                         @endforeach
