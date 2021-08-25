@@ -7,10 +7,10 @@
                 <div class="cnt-account">
                     <ul class="list-unstyled">
                         <li><a href="#"><i class="icon fa fa-user"></i>My Account</a></li>
-                        <li><a href="#"><i class="icon fa fa-heart"></i>Wishlist</a></li>
-                        <li><a href="#"><i class="icon fa fa-shopping-cart"></i>My Cart</a></li>
-                        <li><a href="#"><i class="icon fa fa-check"></i>Checkout</a></li>
-                        <li><a href="#"><i class="icon fa fa-lock"></i>Login</a></li>
+                        <li><a href="{{ route('view.wishlist') }}"><i class="icon fa fa-heart"></i>Wishlist</a></li>
+                        <li><a href="{{ route('my.cart') }}"><i class="icon fa fa-shopping-cart"></i>My Cart</a></li>
+                        <li><a href="{{ route('checkout') }}"><i class="icon fa fa-check"></i>Checkout</a></li>
+                        <li><a href="{{ route('dashboard') }}"><i class="icon fa fa-lock"></i>Login</a></li>
                     </ul>
                 </div>
                 <!-- /.cnt-account -->
@@ -26,12 +26,12 @@
                         </li>
                         <li class="dropdown dropdown-small"> <a href="#" class="dropdown-toggle" data-hover="dropdown" data-toggle="dropdown"><span class="value">@if( session()->get('language')=='english' )Language  @else ভাষা @endif</span><b class="caret"></b></a>
                             <ul class="dropdown-menu">
-                                @if( session()->get('language')=='bangla' )
-                                    <li><a href="{{ route('english.language') }}">English</a></li>
-
-                                @else
+                                @if( session()->get('language')=='english' )
 
                                     <li><a href="{{ route('bangla.language') }}">বাংলা</a></li>
+                                @else
+                                    <li><a href="{{ route('english.language') }}">English</a></li>
+
                                 @endif
                             </ul>
                         </li>
@@ -104,9 +104,9 @@
 
 
                                 <div class="clearfix cart-total">
-                                    <div class="pull-right"> <span class="text">Sub Total :</span><span class='price' id="cartSubTotal"></span> </div>
+                                    <div class="pull-right"> <span  class="text">Sub Total :</span ><span class='price' id="SubTotal"></span> </div>
                                     <div class="clearfix"></div>
-                                    <a href="checkout.html" class="btn btn-upper btn-primary btn-block m-t-20">Checkout</a> </div>
+                                    <a href="#" class="btn btn-upper btn-primary btn-block m-t-20">Checkout</a> </div>
                                 <!-- /.cart-total-->
 
                             </li>

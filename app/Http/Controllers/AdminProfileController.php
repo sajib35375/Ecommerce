@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Admin;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Image;
 
@@ -59,5 +60,25 @@ class AdminProfileController extends Controller
         );
         return redirect()->back()->with($notification);
     }
+//    for user
+
+    public function allUser(){
+        $all_user = User::latest()->get();
+        return view('admin.user.all_user',compact('all_user'));
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 }

@@ -8,6 +8,9 @@
                 <a class="btn btn-primary btn-block" href="{{ url('/dashboard') }}">Home</a>
                 <a class="btn btn-primary btn-block" href="{{ route('user.profile') }}">Profile Update</a>
                 <a class="btn btn-primary btn-block" href="#">Change Password</a>
+                <a class="btn btn-primary btn-block" href="{{ route('user.order') }}">My Order</a>
+                <a class="btn btn-primary btn-block" href="{{ route('show.return.order') }}">Return Order</a>
+                <a class="btn btn-primary btn-block" href="{{ route('show.cancel.order') }}">Cancel Order</a>
                 <a class="btn btn-danger btn-block" href="{{ route('home.logout') }}">Logout</a>
             </div>
 

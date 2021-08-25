@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Http\Controllers;
 
 use Illuminate\Contracts\Auth\StatefulGuard;
@@ -35,8 +36,9 @@ class AdminController extends Controller
     {
         $this->guard = $guard;
     }
-    public function loginForm(){
-        return view('auth.admin_login',['guard'=>'admin']);
+    public function loginForm()
+    {
+        return view('auth.admin_login', ['guard' => 'admin']);
     }
 
     /**

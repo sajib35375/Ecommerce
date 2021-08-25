@@ -11,7 +11,7 @@
                     @include('validate')
                     <div class="box">
                         <div class="box-header with-border">
-                            <h3 class="box-title">All Product</h3>
+                            <h3 class="box-title">All Product<span class="badge badge-pill badge-danger">{{ count($products) }}</span></h3>
 
                         </div>
                         <!-- /.box-header -->

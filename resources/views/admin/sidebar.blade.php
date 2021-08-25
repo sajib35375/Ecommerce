@@ -85,40 +85,86 @@ $route = Route::current()->getName();
             </ul>
         </li>
 
-        <li class="header nav-small-cap">User Interface</li>
-
         <li class="treeview">
             <a href="#">
-                <i data-feather="grid"></i>
-                <span>Components</span>
+                <i data-feather="file"></i>
+                <span>Coupon</span>
                 <span class="pull-right-container">
               <i class="fa fa-angle-right pull-right"></i>
             </span>
             </a>
             <ul class="treeview-menu">
-                <li><a href="components_alerts.html"><i class="ti-more"></i>Alerts</a></li>
-                <li><a href="components_badges.html"><i class="ti-more"></i>Badge</a></li>
-                <li><a href="components_buttons.html"><i class="ti-more"></i>Buttons</a></li>
-                <li><a href="components_sliders.html"><i class="ti-more"></i>Sliders</a></li>
-                <li><a href="components_dropdown.html"><i class="ti-more"></i>Dropdown</a></li>
-                <li><a href="components_modals.html"><i class="ti-more"></i>Modal</a></li>
-                <li><a href="components_nestable.html"><i class="ti-more"></i>Nestable</a></li>
-                <li><a href="components_progress_bars.html"><i class="ti-more"></i>Progress Bars</a></li>
+                <li class="{{ $route=='manage.coupon'?'active':'' }}"><a href="{{ route('manage.coupon') }}"><i class="ti-more"></i>Manage Coupon</a></li>
+
+
+            </ul>
+        </li>
+
+        <li class="treeview">
+            <a href="#">
+                <i data-feather="file"></i>
+                <span>Shipping</span>
+                <span class="pull-right-container">
+              <i class="fa fa-angle-right pull-right"></i>
+            </span>
+            </a>
+            <ul class="treeview-menu">
+                <li class="{{ $route=='all.division'?'active':'' }}"><a href="{{ route('all.division') }}"><i class="ti-more"></i>Division</a></li>
+                <li class="{{ $route=='all.district'?'active':'' }}"><a href="{{ route('all.district') }}"><i class="ti-more"></i>District</a></li>
+                <li class="{{ $route=='all.state'?'active':'' }}"><a href="{{ route('all.state') }}"><i class="ti-more"></i>State</a></li>
+
+
+            </ul>
+        </li>
+
+
+
+        <li class="treeview">
+            <a href="#">
+                <i data-feather="file"></i>
+                <span>Orders</span>
+                <span class="pull-right-container">
+              <i class="fa fa-angle-right pull-right"></i>
+            </span>
+            </a>
+            <ul class="treeview-menu">
+                <li class="{{ $route=='pending.orders'?'active':'' }}"><a href="{{ route('pending.orders') }}"><i class="ti-more"></i>Pending Orders</a></li>
+                <li class="{{ $route=='confirm.order'?'active':'' }}"><a href="{{ route('confirm.order') }}"><i class="ti-more"></i>Confirm Orders</a></li>
+                <li class="{{ $route=='processing.order'?'active':'' }}"><a href="{{ route('processing.order') }}"><i class="ti-more"></i>Processing Orders</a></li>
+                <li class="{{ $route=='picked.order'?'active':'' }}"><a href="{{ route('picked.order') }}"><i class="ti-more"></i>Picked Orders</a></li>
+                <li class="{{ $route=='shipped.order'?'active':'' }}"><a href="{{ route('shipped.order') }}"><i class="ti-more"></i>Shipped Orders</a></li>
+                <li class="{{ $route=='delivered.order'?'active':'' }}"><a href="{{ route('delivered.order') }}"><i class="ti-more"></i>Delivered Orders</a></li>
+                <li class="{{ $route=='cancel.order'?'active':'' }}"><a href="{{ route('cancel.order') }}"><i class="ti-more"></i>Cancel Orders</a></li>
+
+
             </ul>
         </li>
 
         <li class="treeview">
             <a href="#">
                 <i data-feather="credit-card"></i>
-                <span>Cards</span>
+                <span>Reports</span>
                 <span class="pull-right-container">
               <i class="fa fa-angle-right pull-right"></i>
             </span>
             </a>
             <ul class="treeview-menu">
-                <li><a href="card_advanced.html"><i class="ti-more"></i>Advanced Cards</a></li>
-                <li><a href="card_basic.html"><i class="ti-more"></i>Basic Cards</a></li>
-                <li><a href="card_color.html"><i class="ti-more"></i>Cards Color</a></li>
+                <li class="{{ $route=='all.report'?'active':'' }}"><a href="{{ route('all.report') }}"><i class="ti-more"></i>All Reports</a></li>
+
+            </ul>
+        </li>
+
+        <li class="treeview">
+            <a href="#">
+                <i data-feather="credit-card"></i>
+                <span>All User</span>
+                <span class="pull-right-container">
+              <i class="fa fa-angle-right pull-right"></i>
+            </span>
+            </a>
+            <ul class="treeview-menu">
+                <li class="{{ $route=='all.user'?'active':'' }}"><a href="{{ route('all.user') }}"><i class="ti-more"></i>All User</a></li>
+
             </ul>
         </li>
 

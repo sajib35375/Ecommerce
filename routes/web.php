@@ -26,14 +26,10 @@ Route::group(['middleware'=>['auth:admin']],function(){
     Route::post('admin/password/update',[App\Http\Controllers\AdminProfileController::class,'AdminPasswordUpdate'])->name('admin.password.update');
 });
 
-
-
-
 Route::middleware(['auth:sanctum,web', 'verified'])->get('/dashboard', function () {
     $user_profile = User::find(Auth::user()->id);
     return view('dashboard',compact('user_profile'));
 })->name('dashboard');
-
 
 //frontend route
 Route::get('/',[App\Http\Controllers\HomeController::class,'index'])->name('home.index');
@@ -97,10 +93,93 @@ Route::get('product/details/{id}',[App\Http\Controllers\HomeController::class,'P
 Route::get('tagwise/product/{tag}',[App\Http\Controllers\HomeController::class,'TagwiseProduct'])->name('tagwise.product');
 Route::get('catWise/product/{id}',[App\Http\Controllers\HomeController::class,'catWiseProduct'])->name('catWise.product');
 Route::get('SubSubCatWise/product/{id}',[App\Http\Controllers\HomeController::class,'SubSubCatWise'])->name('SubSubCatWise.product');
+
 //add to cart
 Route::get('show/add_to_cart/{id}',[App\Http\Controllers\HomeController::class,'addToCartShow'])->name('add.to.cart');
 Route::post( 'AddToCart-store/{cart_id}',[App\Http\Controllers\CartController::class,'AddToCart'])->name('addTo.cart');
 Route::get( 'AddTo/MiniCart/',[App\Http\Controllers\CartController::class,'AddToMiniCart'])->name('addTo.miniCart');
 Route::get( 'remove/MiniCart/product/{rowId}',[App\Http\Controllers\CartController::class,'RemoveMiniCart'])->name('remove.miniCart');
 
+Route::post('add/wishlist/{id}',[App\Http\Controllers\WishlistController::class,'AddToWishlist'])->name('addTo.wishlist');
 
+Route::group(['middleware'=>'user'],function(){
+//wishlist
+Route::get('view/wishlist/',[App\Http\Controllers\WishlistController::class,'ViewWishlist'])->name('view.wishlist');
+Route::get('show/wishlist',[App\Http\Controllers\WishlistController::class,'ShowWishlist'])->name('show.wishlist');
+Route::get('/remove/wishlist-product/{id}',[App\Http\Controllers\WishlistController::class,'RemoveWishlist'])->name('remove.wishlist');
+Route::post('stripe/order',[App\Http\Controllers\StripeController::class,'StripeOrder'])->name('stripe.order');
+Route::get('user/order',[App\Http\Controllers\OrderController::class,'UserOrder'])->name('user.order');
+Route::get('user/order/details/{id}',[App\Http\Controllers\OrderController::class,'OrderDetail'])->name('order.details');
+Route::get('invoice/download/{id}',[App\Http\Controllers\OrderController::class,'InvoiceDownload'])->name('invoice.download');
+Route::post('return/order/{id}',[App\Http\Controllers\OrderController::class,'ReturnOrder'])->name('return.order');
+Route::get('show/return/order',[App\Http\Controllers\OrderController::class,'ShowReturnOrder'])->name('show.return.order');
+Route::get('show/cancel/order',[App\Http\Controllers\OrderController::class,'ShowCancelOrder'])->name('show.cancel.order');
+
+});
+//CartPage Route
+Route::get('view/myCart',[App\Http\Controllers\CartPageController::class,'ViewMyCert'])->name('my.cart');
+Route::get('load/myCart',[App\Http\Controllers\CartPageController::class,'LoadMyCert'])->name('load.my.cart');
+Route::get('remove/myCart/{id}',[App\Http\Controllers\CartPageController::class,'RemoveMyCart'])->name('remove.my.cart');
+Route::get('/cart/increment/{rowId}',[App\Http\Controllers\CartPageController::class,'cartIncrement'])->name('cart.increment');
+Route::get('/cart/decrement/{rowId}',[App\Http\Controllers\CartPageController::class,'cartDecrement'])->name('cart.decrement');
+//coupon
+Route::get('manage/coupon',[App\Http\Controllers\CouponController::class,'manageCoupon'])->name('manage.coupon');
+Route::post('coupon/store',[App\Http\Controllers\CouponController::class,'CouponStore'])->name('coupon.store');
+Route::get('coupon/edit/{id}',[App\Http\Controllers\CouponController::class,'CouponEdit'])->name('coupon.edit');
+Route::post('coupon/update/{id}',[App\Http\Controllers\CouponController::class,'CouponUpdate'])->name('coupon.update');
+Route::get('coupon/delete/{id}',[App\Http\Controllers\CouponController::class,'CouponDelete'])->name('coupon.delete');
+//shipping(division)
+Route::get('shipping/division',[App\Http\Controllers\ShippingController::class,'allDivision'])->name('all.division');
+Route::post('shipping/division/store',[App\Http\Controllers\ShippingController::class,'DivisionStore'])->name('division.store');
+Route::get('shipping/division/edit/{id}',[App\Http\Controllers\ShippingController::class,'DivisionEdit'])->name('division.edit');
+Route::post('shipping/division/update/{id}',[App\Http\Controllers\ShippingController::class,'DivisionUpdate'])->name('division.update');
+Route::get('shipping/division/delete/{id}',[App\Http\Controllers\ShippingController::class,'DivisionDelete'])->name('division.delete');
+//shipping(district)
+Route::get('shipping/district',[App\Http\Controllers\ShippingController::class,'allDistrict'])->name('all.district');
+Route::post('shipping/district/store',[App\Http\Controllers\ShippingController::class,'DistrictStore'])->name('store.district');
+Route::get('shipping/district/edit/{id}',[App\Http\Controllers\ShippingController::class,'DistrictEdit'])->name('edit.district');
+Route::post('shipping/district/update/{id}',[App\Http\Controllers\ShippingController::class,'DistrictUpdate'])->name('update.district');
+Route::get('shipping/district/delete/{id}',[App\Http\Controllers\ShippingController::class,'DistrictDelete'])->name('delete.district');
+//shipping(state)
+Route::get('shipping/state',[App\Http\Controllers\ShippingController::class,'allState'])->name('all.state');
+Route::post('shipping/state/store',[App\Http\Controllers\ShippingController::class,'StateStore'])->name('store.state');
+Route::get('district/show/{id}',[App\Http\Controllers\ShippingController::class,'districtShow'])->name('district.show');
+Route::get('state/edit/{id}',[App\Http\Controllers\ShippingController::class,'stateEdit'])->name('state.edit');
+Route::post('state/update/{id}',[App\Http\Controllers\ShippingController::class,'stateUpdate'])->name('state.update');
+Route::get('state/delete/{id}',[App\Http\Controllers\ShippingController::class,'stateDelete'])->name('state.delete');
+//couponApply
+Route::post('couponApply',[App\Http\Controllers\CartController::class,'couponApply'])->name('apply.coupon');
+Route::get('coupon/calculation',[App\Http\Controllers\CartController::class,'couponCalculation'])->name('calculation.coupon');
+Route::get('/coupon/remove',[App\Http\Controllers\CartController::class,'removeCoupon'])->name('remove.coupon');
+//checkout page
+Route::get('/checkout',[App\Http\Controllers\CartController::class,'checkout'])->name('checkout');
+Route::get('show-district/{id}',[App\Http\Controllers\CheckoutController::class,'showDistrict'])->name('show.district');
+Route::get('show-states/{id}',[App\Http\Controllers\CheckoutController::class,'showState'])->name('show.state');
+Route::post('/checkout/store',[App\Http\Controllers\CheckoutController::class,'checkOutStore'])->name('checkout.store');
+Route::post('/cash-on-delivery/store',[App\Http\Controllers\CashController::class,'CashOutStore'])->name('cashOut.store');
+
+//orders
+Route::get('pending/orders',[App\Http\Controllers\AdminOrdersController::class,'PendingOrders'])->name('pending.orders');
+Route::get('user/orders/{id}',[App\Http\Controllers\AdminOrdersController::class,'UserOrders'])->name('user.orders');
+Route::get('confirm/orders',[App\Http\Controllers\AdminOrdersController::class,'ConfirmedOrder'])->name('confirm.order');
+Route::get('processing/orders',[App\Http\Controllers\AdminOrdersController::class,'ProcessingOrder'])->name('processing.order');
+Route::get('picked/orders',[App\Http\Controllers\AdminOrdersController::class,'PickedOrder'])->name('picked.order');
+Route::get('shipped/orders',[App\Http\Controllers\AdminOrdersController::class,'ShippedOrder'])->name('shipped.order');
+Route::get('delivered/orders',[App\Http\Controllers\AdminOrdersController::class,'DeliveredOrder'])->name('delivered.order');
+Route::get('cancel/orders',[App\Http\Controllers\AdminOrdersController::class,'CancelOrder'])->name('cancel.order');
+//status
+Route::get('confirm/order/status/{id}',[App\Http\Controllers\AdminOrdersController::class,'ConfirmOrder'])->name('confirmed.order');
+Route::get('process/order/status/{id}',[App\Http\Controllers\AdminOrdersController::class,'ProcessOrder'])->name('process.order');
+Route::get('pick/order/status/{id}',[App\Http\Controllers\AdminOrdersController::class,'PickOrder'])->name('pick.order');
+Route::get('ship/order/status/{id}',[App\Http\Controllers\AdminOrdersController::class,'ShipOrder'])->name('ship.order');
+Route::get('delivery/order/status/{id}',[App\Http\Controllers\AdminOrdersController::class,'DeliveryOrder'])->name('delivery.order');
+Route::get('cancel/order/status/{id}',[App\Http\Controllers\AdminOrdersController::class,'CanOrder'])->name('canceled.order');
+//invoice download
+Route::get('invoice/down/{id}',[App\Http\Controllers\AdminOrdersController::class,'invoiceDown'])->name('invoice.down');
+//all reports
+Route::get('all/reports',[App\Http\Controllers\ReportController::class,'allReports'])->name('all.report');
+Route::post('search/reports/by/date',[App\Http\Controllers\ReportController::class,'searchReportsByDate'])->name('search.report.date');
+Route::post('search/reports/by/month',[App\Http\Controllers\ReportController::class,'searchReportsByMonth'])->name('search.report.month');
+Route::post('search/reports/by/year',[App\Http\Controllers\ReportController::class,'searchReportsByYear'])->name('search.report.year');
+//user show
+Route::get('all/users',[App\Http\Controllers\AdminProfileController::class,'allUser'])->name('all.user');
