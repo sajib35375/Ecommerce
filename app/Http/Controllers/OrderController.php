@@ -47,6 +47,7 @@ class OrderController extends Controller
         Order::find($id)->update([
             'return_date' => Carbon::now()->format('d F Y'),
             'return_reason' => $request->return_reason,
+            'return_order' => 1,
         ]);
 
         $notification = array(

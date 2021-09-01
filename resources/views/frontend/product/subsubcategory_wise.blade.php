@@ -8,7 +8,15 @@
             <div class="breadcrumb-inner">
                 <ul class="list-inline list-unstyled">
                     <li><a href="#">Home</a></li>
-                    <li class='active'>Handbags</li>
+                    @foreach( $breadSubSub as $subsub )
+                     <li  class='active'>{{ $subsub->category->category_name_en }}</li>
+                    @endforeach
+                    @foreach( $breadSubSub as $subsub )
+                        <li style="display: inline;" class='active'>{{ $subsub->subcategory->sub_cat_name_eng }}</li>
+                    @endforeach
+                    @foreach( $breadSubSub as $subsub )
+                        <li  class='active'>{{ $subsub->sub_subcategory_name_eng }}</li>
+                    @endforeach
                 </ul>
             </div>
             <!-- /.breadcrumb-inner -->

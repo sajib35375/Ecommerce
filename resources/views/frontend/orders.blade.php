@@ -1,7 +1,6 @@
 @extends('frontend.front_master')
 @section('content')
 
-
         <div class="row">
             <div style="margin: auto;padding: 30px;" class="col-md-3">
                 <img style="height: 100%; width: 100%;border-radius: 50%;" src="{{ !empty($user_profile->profile_photo_path) ? url($user_profile->profile_photo_path) : url('images/joker.jpg') }}" alt="">
@@ -38,7 +37,25 @@
                         <td>${{ $order->amount }}</td>
                         <td>{{ $order->invoice_number }}</td>
                         <td>{{ $order->order_date }}</td>
-                        <td><span class="badge badge-success">{{ $order->status }}</span></td>
+                        <td>
+                            @if( $order->status == 'pending' )
+                                <span class="badge badge-pill" style="background-color: #9e1f63;">Pending</span>
+                            @elseif( $order->status == 'confirm' )
+                                <span class="badge badge-pill" style="background-color: #2ef99f;">Confirm</span>
+                            @elseif( $order->status == 'processing' )
+                                <span class="badge badge-pill" style="background-color: #5f3f3f;">Processing</span>
+                            @elseif( $order->status == 'shipped' )
+                                <span class="badge badge-pill" style="background-color: #0b816a;">Shipped</span>
+                            @elseif( $order->status == 'delivered' )
+                                <span class="badge badge-pill" style="background-color: #0b2e13;">Delivered</span>
+                                @if( $order->return_order==1 )
+                                    <span class="badge badge-pill" style="background-color: #8c0615;">Return requested</span>
+                                    @endif
+                            @elseif( $order->status == 'cancel' )
+                                <span class="badge badge-pill" style="background-color: #8c0615;">Cancel</span>
+
+                            @endif
+                        </td>
                         <td>
                             <a class="btn btn-sm btn-primary" href="{{ route('order.details',$order->id) }}"><i class="fa fa-eye"></i>View</a>
                             <a class="btn btn-sm btn-danger" href="{{ route('invoice.download',$order->id) }}"><i class="fa fa-download"></i>Invoice</a>
@@ -51,6 +68,7 @@
                 </table>
             </div>
         </div>
+
 
 
 @endsection

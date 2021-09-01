@@ -13,7 +13,7 @@
                     <h6 style="color:#1A233A;" class="widget-user-desc">{{ $profile->email }}</h6>
                 </div>
                 <div class="widget-user-image">
-                    <img class="rounded-circle" src="{{ (!empty($profile->profile_photo_path )? url($profile->profile_photo_path):url('images/joker.jpg')) }}" alt="User Avatar">
+                    <img class="rounded-circle" src="{{ !empty('images/profile/'.$profile->profile_photo_path) ? url('images/profile/'.$profile->profile_photo_path) : url('images/joker.jpg') }}" alt="User Avatar">
                 </div>
                 <div class="box-footer">
                     <div class="row">

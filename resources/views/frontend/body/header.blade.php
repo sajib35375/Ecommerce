@@ -10,7 +10,13 @@
                         <li><a href="{{ route('view.wishlist') }}"><i class="icon fa fa-heart"></i>Wishlist</a></li>
                         <li><a href="{{ route('my.cart') }}"><i class="icon fa fa-shopping-cart"></i>My Cart</a></li>
                         <li><a href="{{ route('checkout') }}"><i class="icon fa fa-check"></i>Checkout</a></li>
-                        <li><a href="{{ route('dashboard') }}"><i class="icon fa fa-lock"></i>Login</a></li>
+                        <li><a data-toggle="modal" href="#order_tracking_modal"><i class="icon fa fa-lock"></i>OrderTracking</a></li>
+                        @auth
+                        <li><a href="{{ route('dashboard') }}"><i class="icon fa fa-lock"></i>Profile</a></li>
+                        @else
+                            <li><a href="{{ url('/login') }}"><i class="icon fa fa-lock"></i>Login</a></li>
+                        @endauth
+
                     </ul>
                 </div>
                 <!-- /.cnt-account -->
@@ -52,7 +58,10 @@
             <div class="row">
                 <div class="col-xs-12 col-sm-12 col-md-3 logo-holder">
                     <!-- ============================================================= LOGO ============================================================= -->
-                    <div class="logo"> <a href="{{ route('home.index') }}"> <img src="{{ URL::to('frontend/assets/images/logo.png') }}" alt="logo"> </a> </div>
+                    @php
+                        $setting = App\Models\SiteSetting::find(1);
+                    @endphp
+                    <div class="logo"> <a href="{{ route('home.index') }}"> <img src="{{ URL::to('') }}/images/logo/{{ $setting->logo }}" alt="logo"> </a> </div>
                     <!-- /.logo -->
                     <!-- ============================================================= LOGO : END ============================================================= --> </div>
                 <!-- /.logo-holder -->
@@ -61,7 +70,8 @@
                     <!-- /.contact-row -->
                     <!-- ============================================================= SEARCH AREA ============================================================= -->
                     <div class="search-area">
-                        <form>
+                        <form method="POST" action="{{ route('search.product') }}">
+                            @csrf
                             <div class="control-group">
                                 <ul class="categories-filter animate-dropdown">
                                     <li class="dropdown"> <a class="dropdown-toggle"  data-toggle="dropdown" href="category.html">Categories <b class="caret"></b></a>
@@ -77,9 +87,10 @@
 
                                     </li>
                                 </ul>
-                                <input class="search-field" placeholder="Search here..." />
-                                <a class="search-button" href="#" ></a> </div>
+                                <input id="search" onfocus="search_product_show()" onblur="search_product_hide()" name="search" class="search-field" placeholder="Search here..." />
+                                <button type="submit" class="search-button"  ></button> </div>
                         </form>
+                        <div id="adsearch"></div>
                     </div>
                     <!-- /.search-area -->
                     <!-- ============================================================= SEARCH AREA : END ============================================================= --> </div>
@@ -181,6 +192,7 @@
 
 
                                 <li class="dropdown  navbar-right special-menu"> <a href="#">Todays offer</a> </li>
+                                <li class="dropdown  navbar-right special-menu"> <a href="{{ route('blog.index') }}">Blog</a> </li>
                             </ul>
                             <!-- /.navbar-nav -->
                             <div class="clearfix"></div>
@@ -200,4 +212,66 @@
     <!-- /.header-nav -->
     <!-- ============================================== NAVBAR : END ============================================== -->
 
+{{--    order tracking modal--}}
+
+    <div id="order_tracking_modal" class="modal fade">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2>Order Tracking</h2>
+                </div>
+                <div class="modal-body">
+
+                        <form action="{{ route('tracking.order') }}" method="POST">
+                            @csrf
+                            <div class="form-group">
+                                <label for="">Input Invoice Number</label>
+                                <input name="order_track" class="form-control" type="text">
+                            </div>
+                            <div class="form-group">
+                                <input value="Track Now" class="btn btn-danger" type="submit">
+                            </div>
+                        </form>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
 </header>
+
+<style>
+
+    .search-area {
+        position: relative;
+    }
+
+
+
+    #adsearch {
+        position: absolute;
+        top: 100%;
+        left: 0px;
+        width: 100%;
+        z-index: 999;
+        background: white;
+        margin-top: 10px;
+        border-radius: 15px;
+    }
+
+
+
+
+</style>
+
+<script>
+    function search_product_show(){
+        $('#adsearch').slideDown();
+    }
+
+    function search_product_hide(){
+        $('#adsearch').slideUp();
+    }
+
+
+</script>

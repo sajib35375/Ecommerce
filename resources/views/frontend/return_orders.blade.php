@@ -38,7 +38,16 @@
                         <td>${{ $order->amount }}</td>
                         <td>{{ $order->invoice_number }}</td>
                         <td>{{ $order->order_date }}</td>
-                        <td><span class="badge badge-success">{{ $order->status }}</span></td>
+                        <td>
+                            @if( $order->return_order == 0 )
+                                <span class="badge badge-success" style="background-color: #0b816a">No Return Order</span>
+                            @elseif( $order->return_order == 1 )
+                                <span class="badge badge-warning" style="background-color: #0f6674">Pending</span>
+                                <span class="badge badge-danger" style="background-color: #8c0615">Return Order Requested</span>
+                                @elseif( $order->return_order == 2 )
+                                <span class="badge badge-warning" style="background-color: #00CBA0">Success</span>
+                           @endif
+                        </td>
                         <td>
                             <a class="btn btn-sm btn-primary" href="{{ route('order.details',$order->id) }}"><i class="fa fa-eye"></i>View</a>
                             <a class="btn btn-sm btn-danger" href="{{ route('invoice.download',$order->id) }}"><i class="fa fa-download"></i>Invoice</a>

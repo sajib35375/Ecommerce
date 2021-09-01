@@ -151,7 +151,7 @@
                     <textarea class="form-control" name="return_reason" id="" cols="30" rows="10">return reason</textarea>
                 </div>
                     <div class="form-group">
-                        <button type="submit" class="btn btn-danger">Submit</button>
+                        <button type="submit" class="btn btn-danger">Return Order</button>
                     </div>
                 </form>
                 @endif

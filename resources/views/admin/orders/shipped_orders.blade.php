@@ -3,12 +3,13 @@
 
     <div class="container">
         <div class="row">
+            <div  class="col-md-12">
             <div style="margin-top: 10px;" class="card">
                 <div class="card-header">
                     <h2>All Shipped Orders</h2>
                 </div>
                 <div class="card-body">
-                    <div  class="col-md-12">
+
                         <table class="table table-striped">
                             <thead>
                             <tr>

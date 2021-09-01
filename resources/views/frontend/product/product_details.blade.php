@@ -250,12 +250,16 @@
                                             </div>
 
 
+
+
+
                                         </div><!-- /.row -->
                                     </div><!-- /.quantity-container -->
 
 
 
-
+                                        <!-- Go to www.addthis.com/dashboard to customize your tools -->
+                                        <div class="addthis_inline_share_toolbox_ie6x"></div>
 
 
                                 </div><!-- /.product-info -->
@@ -289,11 +293,22 @@
                                                 <h4 class="title">Customer Reviews</h4>
 
                                                 <div class="reviews">
+                                                    @php
+                                                        $reviews = App\Models\Review::with('product','user')->where('product_id',$products->id)->where('status',true)->latest()->limit(5)->get();
+                                                    @endphp
+                                                    @foreach( $reviews as $review )
+                                                        <div class="col-md-3">
+                                                            <img style="width: 50px;height: 50px;border-radius: 50%;" src="{{ !empty($review->user->profile_photo_path) ? url($review->user->profile_photo_path) : url('images/joker.jpg') }}" alt="">
+                                                            <b style="color: #00CBA0;">{{ $review->user->name }}</b>
+                                                        </div>
                                                     <div class="review">
-                                                        <div class="review-title"><span class="summary">We love this product</span><span class="date"><i class="fa fa-calendar"></i><span>1 days ago</span></span></div>
-                                                        <div class="text">"Lorem ipsum dolor sit amet, consectetur adipiscing elit.Aliquam suscipit."</div>
+                                                        <div class="review-title"><span class="summary">{{ $review->summery }}</span>
+                                                            <span class="date">
+                                                                <i class="fa fa-calendar"></i>
+                                                                <span>{{ $review->created_at->diffForHumans() }}</span></span></div>
+                                                        <div class="text">{{ $review->review }}</div>
                                                     </div>
-
+                                                    @endforeach
                                                 </div><!-- /.reviews -->
                                             </div><!-- /.product-reviews -->
 
@@ -302,78 +317,41 @@
                                             <div class="product-add-review">
                                                 <h4 class="title">Write your own review</h4>
                                                 <div class="review-table">
-                                                    <div class="table-responsive">
-                                                        <table class="table">
-                                                            <thead>
-                                                            <tr>
-                                                                <th class="cell-label">&nbsp;</th>
-                                                                <th>1 star</th>
-                                                                <th>2 stars</th>
-                                                                <th>3 stars</th>
-                                                                <th>4 stars</th>
-                                                                <th>5 stars</th>
-                                                            </tr>
-                                                            </thead>
-                                                            <tbody>
-                                                            <tr>
-                                                                <td class="cell-label">Quality</td>
-                                                                <td><input type="radio" name="quality" class="radio" value="1"></td>
-                                                                <td><input type="radio" name="quality" class="radio" value="2"></td>
-                                                                <td><input type="radio" name="quality" class="radio" value="3"></td>
-                                                                <td><input type="radio" name="quality" class="radio" value="4"></td>
-                                                                <td><input type="radio" name="quality" class="radio" value="5"></td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td class="cell-label">Price</td>
-                                                                <td><input type="radio" name="quality" class="radio" value="1"></td>
-                                                                <td><input type="radio" name="quality" class="radio" value="2"></td>
-                                                                <td><input type="radio" name="quality" class="radio" value="3"></td>
-                                                                <td><input type="radio" name="quality" class="radio" value="4"></td>
-                                                                <td><input type="radio" name="quality" class="radio" value="5"></td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td class="cell-label">Value</td>
-                                                                <td><input type="radio" name="quality" class="radio" value="1"></td>
-                                                                <td><input type="radio" name="quality" class="radio" value="2"></td>
-                                                                <td><input type="radio" name="quality" class="radio" value="3"></td>
-                                                                <td><input type="radio" name="quality" class="radio" value="4"></td>
-                                                                <td><input type="radio" name="quality" class="radio" value="5"></td>
-                                                            </tr>
-                                                            </tbody>
-                                                        </table><!-- /.table .table-bordered -->
-                                                    </div><!-- /.table-responsive -->
+
                                                 </div><!-- /.review-table -->
 
                                                 <div class="review-form">
+                                                    @guest
+                                                       <p><b style="color: #8c0615;">If you want to review this product you must login first <a href="{{ route('login') }}">Login Here</a> </b></p>
+                                                    @else
                                                     <div class="form-container">
-                                                        <form role="form" class="cnt-form">
+                                                        <form role="form" class="cnt-form" method="POST" action="{{ route('review.store',$products->id) }}">
+                                                            @csrf
 
                                                             <div class="row">
-                                                                <div class="col-sm-6">
-                                                                    <div class="form-group">
-                                                                        <label for="exampleInputName">Your Name <span class="astk">*</span></label>
-                                                                        <input type="text" class="form-control txt" id="exampleInputName" placeholder="">
-                                                                    </div><!-- /.form-group -->
+                                                                <div class="col-sm-12">
+
                                                                     <div class="form-group">
                                                                         <label for="exampleInputSummary">Summary <span class="astk">*</span></label>
-                                                                        <input type="text" class="form-control txt" id="exampleInputSummary" placeholder="">
+                                                                        <input name="summery" type="text" class="form-control txt" id="exampleInputSummary" placeholder="">
                                                                     </div><!-- /.form-group -->
-                                                                </div>
+{{--                                                                </div>--}}
 
-                                                                <div class="col-md-6">
+{{--                                                                <div class="col-md-6">--}}
                                                                     <div class="form-group">
                                                                         <label for="exampleInputReview">Review <span class="astk">*</span></label>
-                                                                        <textarea class="form-control txt txt-review" id="exampleInputReview" rows="4" placeholder=""></textarea>
+                                                                        <textarea name="review" class="form-control txt txt-review" id="exampleInputReview" rows="4" placeholder=""></textarea>
                                                                     </div><!-- /.form-group -->
                                                                 </div>
                                                             </div><!-- /.row -->
 
                                                             <div class="action text-right">
-                                                                <button class="btn btn-primary btn-upper">SUBMIT REVIEW</button>
+                                                                <button type="submit" class="btn btn-primary btn-upper">SUBMIT REVIEW</button>
                                                             </div><!-- /.action -->
 
                                                         </form><!-- /.cnt-form -->
                                                     </div><!-- /.form-container -->
+                                                    @endguest
                                                 </div><!-- /.review-form -->
 
                                             </div><!-- /.product-add-review -->
@@ -493,5 +471,11 @@
                 </div><!-- /.col -->
                 <div class="clearfix"></div>
             </div><!-- /.row -->
+
+
+
+                <!-- Go to www.addthis.com/dashboard to customize your tools -->
+                <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-612acb27ec919900"></script>
+
 
 @endsection

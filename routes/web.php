@@ -21,7 +21,7 @@ Route::group(['middleware'=>['auth:admin']],function(){
     Route::get('admin/logout',[App\Http\Controllers\AdminController::class,'destroy'])->name('admin.logout');
     Route::get('admin/profile',[App\Http\Controllers\AdminProfileController::class,'AdminProfile'])->name('admin.profile');
     Route::get('admin/profile/edit',[App\Http\Controllers\AdminProfileController::class,'AdminProfileEdit'])->name('admin.profile.edit');
-    Route::post('admin/profile/update',[App\Http\Controllers\AdminProfileController::class,'AdminProfileUpdate'])->name('admin.profile.update');
+    Route::post('admin/profile/update/{id}',[App\Http\Controllers\AdminProfileController::class,'AdminProfileUpdate'])->name('admin.profile.update');
     Route::get('admin/password/change',[App\Http\Controllers\AdminProfileController::class,'AdminPasswordChange'])->name('admin.password.change');
     Route::post('admin/password/update',[App\Http\Controllers\AdminProfileController::class,'AdminPasswordUpdate'])->name('admin.password.update');
 });
@@ -114,6 +114,7 @@ Route::get('invoice/download/{id}',[App\Http\Controllers\OrderController::class,
 Route::post('return/order/{id}',[App\Http\Controllers\OrderController::class,'ReturnOrder'])->name('return.order');
 Route::get('show/return/order',[App\Http\Controllers\OrderController::class,'ShowReturnOrder'])->name('show.return.order');
 Route::get('show/cancel/order',[App\Http\Controllers\OrderController::class,'ShowCancelOrder'])->name('show.cancel.order');
+Route::post('tracking/order',[App\Http\Controllers\AdminUserController::class,'TrackingOrder'])->name('tracking.order');
 
 });
 //CartPage Route
@@ -183,3 +184,47 @@ Route::post('search/reports/by/month',[App\Http\Controllers\ReportController::cl
 Route::post('search/reports/by/year',[App\Http\Controllers\ReportController::class,'searchReportsByYear'])->name('search.report.year');
 //user show
 Route::get('all/users',[App\Http\Controllers\AdminProfileController::class,'allUser'])->name('all.user');
+//blog
+Route::get('blog/category',[App\Http\Controllers\BlogPostController::class,'blogCategory'])->name('blag.category');
+Route::post('blog/category/store',[App\Http\Controllers\BlogPostController::class,'blogCategoryStore'])->name('blag.category.store');
+Route::get('add/new/post',[App\Http\Controllers\BlogPostController::class,'AddNewPost'])->name('add.new.post');
+Route::post('add/new/post/store',[App\Http\Controllers\BlogPostController::class,'AddNewPostStore'])->name('add.new.post.store');
+Route::get('view/new/post/',[App\Http\Controllers\BlogPostController::class,'ViewNewPost'])->name('view.new.post');
+//frontend blog
+Route::get('blog/index',[App\Http\Controllers\BlogPageController::class,'index'])->name('blog.index');
+Route::get('post/details/{id}',[App\Http\Controllers\BlogPageController::class,'PostDetails'])->name('post.details');
+Route::get('category/post/{id}',[App\Http\Controllers\BlogPageController::class,'CategoryPost'])->name('category.post');
+//site setting
+Route::get('site/setting',[App\Http\Controllers\SiteSettingController::class,'SiteSetting'])->name('site.setting');
+Route::post('site/setting/update/{id}',[App\Http\Controllers\SiteSettingController::class,'SiteSettingUpdate'])->name('site.setting.update');
+//seo setting
+Route::get('seo/setting',[App\Http\Controllers\SiteSettingController::class,'SeoPage'])->name('seo.page');
+Route::post('seo/setting/update{id}',[App\Http\Controllers\SiteSettingController::class,'SeoPageUpdate'])->name('seo.page.update');
+//return order
+Route::get('return/order',[App\Http\Controllers\ReturnOrderController::class,'ReturnOrder'])->name('return.order');
+Route::get('return/order/approve/{id}',[App\Http\Controllers\ReturnOrderController::class,'ReturnOrderApprove'])->name('return.order.approve');
+Route::get('all/return/order/approve',[App\Http\Controllers\ReturnOrderController::class,'AllReturnOrderApprove'])->name('all.return.order.approve');
+//review product
+Route::post('review/store/{id}',[App\Http\Controllers\ReviewController::class,'ReviewProduct'])->name('review.store');
+Route::get('admin/pending/review',[App\Http\Controllers\ReviewController::class,'PendingReview'])->name('pending.review');
+Route::get('admin/approve/review/{id}',[App\Http\Controllers\ReviewController::class,'ApproveReview'])->name('approve.review');
+Route::get('admin/review/show',[App\Http\Controllers\ReviewController::class,'ApproveReviewShow'])->name('approve.review.show');
+Route::get('admin/review/delete/{id}',[App\Http\Controllers\ReviewController::class,'DeleteReview'])->name('delete.review');
+//product stock
+Route::get('product/stock',[App\Http\Controllers\ProductController::class,'ProductStock'])->name('product.stock');
+//admin role
+Route::get('admin/user',[App\Http\Controllers\AdminUserController::class,'AdminUser'])->name('admin.user');
+Route::get('add/admin/user',[App\Http\Controllers\AdminUserController::class,'AddAdminUser'])->name('add.admin.user');
+Route::post('add/admin-user/store',[App\Http\Controllers\AdminUserController::class,'AddAdminUserStore'])->name('add.admin.user.store');
+Route::get('admin-user/edit/{id}',[App\Http\Controllers\AdminUserController::class,'AdminUserEdit'])->name('admin.user.edit');
+Route::post('admin-user/update/{id}',[App\Http\Controllers\AdminUserController::class,'AdminUserUpdate'])->name('admin.user.update');
+Route::get('admin-user/delete/{id}',[App\Http\Controllers\AdminUserController::class,'AdminUserDelete'])->name('admin.user.delete');
+//search
+Route::post('search',[App\Http\Controllers\HomeController::class,'SearchProduct'])->name('search.product');
+Route::post('advance/search',[App\Http\Controllers\HomeController::class,'AdvanceSearch'])->name('advance.search');
+
+
+
+
+
+

@@ -5,10 +5,12 @@ namespace App\Http\Controllers;
 use App\Models\Coupon;
 use App\Models\Order;
 use App\Models\OrderItem;
+use App\Models\Product;
 use App\Models\User;
 use Gloudemans\Shoppingcart\Facades\Cart;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
+use Auth;
+use DB;
 use Illuminate\Support\Facades\Session;
 use PDF;
 
@@ -19,7 +21,7 @@ class AdminOrdersController extends Controller
         return view('admin.orders.pending_orders',compact('orders'));
     }
     public function UserOrders($id){
-        $user_id = Auth::user()->id;
+        $user_id = Auth::id();
         $user_profile = User::find($user_id);
         $order = Order::with('division','district','state','user')->where('id',$id)->first();
         $order_item = OrderItem::where('order_id',$id)->latest()->get();
@@ -100,9 +102,17 @@ class AdminOrdersController extends Controller
         return redirect()->route('shipped.order')->with($notification);
     }
     public function DeliveryOrder($id){
+        $product = OrderItem::where('order_id',$id)->get();
+
+        foreach( $product as $item ){
+
+           Product::where('id',$item->product_id)->update([
+                'product_quantity' => DB::raw('product_quantity-'.$item->quantity)
+           ]);
+        }
         Order::find($id)->update([
             'status' => 'delivered'
-        ]);
+       ]);
         $notification = array(
             'alert_type' => 'success',
             'message' => 'order status update successfully'

@@ -1,16 +1,21 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    @php
+        $seo = App\Models\Seo::find(1);
+    @endphp
     <!-- Meta -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <meta name="description" content="">
+    <meta name="description" content="{{ $seo->meta_description }}">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <meta name="author" content="">
-    <meta name="keywords" content="MediaCenter, Template, eCommerce">
+    <meta name="author" content="{{ $seo->meta_author }}">
+    <meta name="keywords" content="{{ $seo->meta_keywords }}">
     <meta name="robots" content="all">
     <title>Flipmart premium HTML5 & CSS3 Template</title>
-
+        <script>
+            {{ $seo->google_analytics }}
+        </script>
     <!-- Bootstrap Core CSS -->
     <link rel="stylesheet" href="{{ asset('frontend/assets/css/bootstrap.min.css') }}">
 
@@ -77,6 +82,8 @@
 <!-- JavaScripts placed at the end of the document so the pages load faster -->
 <script src="{{ asset('frontend/assets/js/jquery-1.11.1.min.js') }}"></script>
 <script src="{{ asset('frontend/assets/js/bootstrap.min.js') }}"></script>
+{{--<script src="{{ asset('frontend/assets/js/bootstrap.bundle.min.js') }}"></script>--}}
+{{--<script src="{{ asset('frontend/assets/js/jquery-3.5.1.slim.min.js') }}"></script>--}}
 <script src="{{ asset('frontend/assets/js/bootstrap-hover-dropdown.min.js') }}"></script>
 <script src="{{ asset('frontend/assets/js/owl.carousel.min.js') }}"></script>
 <script src="{{ asset('frontend/assets/js/echo.min.js') }}"></script>
@@ -771,5 +778,40 @@ function couponRemove(){
 
 
 </script>
+
+<script>
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    });
+
+
+    const site_url = "http://127.0.0.1:8000/";
+    $("body").on("keyup",'#search',function (){
+        let text = $('#search').val();
+        if (text.length >0){
+        $.ajax({
+            data:{search:text},
+            url:site_url+"advance/search/",
+            method:"post",
+            success:function (result){
+                $('#adsearch').html(result);
+            }
+        });
+        }
+        if (text.length < 1){
+            $('#adsearch').html("");
+        }
+
+    });
+
+
+</script>
+
+
+
+
+
 </body>
 </html>

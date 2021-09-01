@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\AddPost;
 use App\Models\Brand;
 use App\Models\Category;
 use App\Models\MultiImg;
@@ -28,9 +29,9 @@ class HomeController extends Controller
         $skip_product_0 = Product::where('status',1)->where('category_id',$skip_cat_0->id)->get();
         $skip_brand_0 = Brand::skip(0)->first();
         $skip_brand_product_0 = Product::where('status',1)->where('brand_id',$skip_brand_0->id)->get();
+        $posts = AddPost::latest()->get();
 
-
-        return view('frontend.index',compact('all_cat','sliders','products','featured','hot_deals','special_offer','special_deals','skip_cat_0','skip_product_0','skip_brand_0','skip_brand_product_0'));
+        return view('frontend.index',compact('all_cat','sliders','products','featured','hot_deals','special_offer','special_deals','skip_cat_0','skip_product_0','skip_brand_0','skip_brand_product_0','posts'));
     }
     public function logout(){
         Auth::logout();
@@ -79,6 +80,7 @@ class HomeController extends Controller
             $change_password = User::find($id);
             $change_password->password = password_hash($request->password,PASSWORD_DEFAULT);
             $change_password->update();
+
             $notification = array(
                 'message' => 'password updated successfully',
                 'alert_type' => 'success'
@@ -119,12 +121,14 @@ class HomeController extends Controller
     public function catWiseProduct($id){
         $subcat_wise = Product::where('status',1)->where('subcategory_id',$id)->paginate(6);
         $categories = Category::all();
-        return view('frontend.product.categoryWise_product',compact('subcat_wise','categories'));
+        $bread = SubCategory::with('category')->where('id',$id)->get();
+        return view('frontend.product.categoryWise_product',compact('subcat_wise','categories','bread'));
     }
     public function SubSubCatWise($id){
         $subsubcat_wise = Product::where('status',1)->where('sub_subcategory_id',$id)->paginate(6);
         $categories = Category::all();
-        return view('frontend.product.subsubcategory_wise',compact('subsubcat_wise','categories'));
+        $breadSubSub = SubSubCategory::with('category','subcategory')->where('id',$id)->get();
+        return view('frontend.product.subsubcategory_wise',compact('subsubcat_wise','categories','breadSubSub'));
     }
     public function addToCartShow($id){
         $data = Product::with('category','brand')->find($id);
@@ -138,6 +142,25 @@ class HomeController extends Controller
              'color' => $product_color,
              'size' => $product_size
          ));
+    }
+    public function SearchProduct(Request $request){
+        $this->validate($request,[
+            'search' => 'required',
+        ]);
+
+        $search = $request->search;
+        $categories = Category::all();
+        $products = Product::where('product_name_eng','LIKE',"%$search%")->get();
+        return view('frontend.product.search',compact('products','categories'));
+    }
+    public function AdvanceSearch(Request $request){
+        $this->validate($request,[
+            'search' => 'required',
+        ]);
+
+        $search = $request->search;
+        $products = Product::where('product_name_eng','LIKE',"%$search%")->select('product_name_eng','product_thumbnail','id')->limit(5)->get();
+        return view('frontend.product.search_product',compact('products'));
     }
 
 
