@@ -37,7 +37,7 @@
                                                     <span class="badge badge-danger">inactive</span>
                                                 @endif
                                             </td>
-                                            <td><img style="width: 70px;height: 40px;" src="{{ asset($slider->slider_img) }}" alt=""></td>
+                                            <td><img style="width: 70px;height: 40px;" src="{{ URL::to('') }}/images/slider/{{ $slider->slider_img }}" alt=""></td>
                                             <td>
                                                 <a class="btn btn-info btn-sm" href="{{ route('slider.edit',$slider->id) }}">Edit</a>
                                                 <a class="btn btn-danger btn-sm" href="{{ route('slider.delete',$slider->id) }}">Delete</a>
@@ -71,59 +71,58 @@
 
                 </div>
                 <!-- /.box -->
-
-
                 <div class="col-md-4">
-                    <form action="{{ route('slider.store') }}" method="POST" enctype="multipart/form-data">
-                        @csrf
-                        <div class="form-group">
-                            <label for="#">Slider Title English</label>
-                            <input name="title_eng" class="form-control" type="text">
-                            @error('title_eng')
-                            <span class="text-danger">{{ $message }}</span>
-                            @enderror
+                <div class="card">
+                    <div class="card-header">
+                        <h2>Add New Slider</h2>
+                    </div>
+                    <div class="card-body">
+
+                            <form action="{{ route('slider.store') }}" method="POST" enctype="multipart/form-data">
+                                @csrf
+                                <div class="form-group">
+                                    <label for="#">Slider Title English</label>
+                                    <input name="title_eng" class="form-control" type="text">
+                                    @error('title_eng')
+                                    <span class="text-danger">{{ $message }}</span>
+                                    @enderror
+                                </div>
+                                <div class="form-group">
+                                    <label for="#">Slider Title Bangla</label>
+                                    <input name="title_ban" class="form-control" type="text">
+                                    @error('title_ban')
+                                    <span class="text-danger">{{ $message }}</span>
+                                    @enderror
+                                </div>
+                                <div class="form-group">
+                                    <label for="#">Slider Content English</label>
+                                    <input name="short_des_eng" class="form-control" type="text">
+                                    @error('short_des_eng')
+                                    <span class="text-danger">{{ $message }}</span>
+                                    @enderror
+                                </div>
+                                <div class="form-group">
+                                    <label for="#">Slider content Bangla</label>
+                                    <input name="short_des_ban" class="form-control" type="text">
+                                    @error('short_des_ban')
+                                    <span class="text-danger">{{ $message }}</span>
+                                    @enderror
+                                </div>
+                                <div class="form-group">
+                                    <label for="#">Slider Image</label>
+                                    <img id="img" src="" alt="">
+                                    <input name="slider_img" class="form-control-file" type="file">
+                                    @error('slider_img')
+                                    <span class="text-danger">{{ $message }}</span>
+                                    @enderror
+                                </div>
+                                <div class="form-group">
+                                    <input value="Add" class="btn btn-success" type="submit">
+                                </div>
+                            </form>
                         </div>
-                        <div class="form-group">
-                            <label for="#">Slider Title Bangla</label>
-                            <input name="title_ban" class="form-control" type="text">
-                            @error('title_ban')
-                            <span class="text-danger">{{ $message }}</span>
-                            @enderror
-                        </div>
-                        <div class="form-group">
-                            <label for="#">Slider Content English</label>
-                            <input name="short_des_eng" class="form-control" type="text">
-                            @error('short_des_eng')
-                            <span class="text-danger">{{ $message }}</span>
-                            @enderror
-                        </div>
-                        <div class="form-group">
-                            <label for="#">Slider content Bangla</label>
-                            <input name="short_des_ban" class="form-control" type="text">
-                            @error('short_des_ban')
-                            <span class="text-danger">{{ $message }}</span>
-                            @enderror
-                        </div>
-                        <div class="form-group">
-                            <label for="#">Slider Image</label>
-                            <input name="slider_img" class="form-control-file" type="file">
-                            @error('slider_img')
-                            <span class="text-danger">{{ $message }}</span>
-                            @enderror
-                        </div>
-                        <div class="form-group">
-                            <input value="Add" class="btn btn-success" type="submit">
-                        </div>
-                    </form>
+                    </div>
                 </div>
-
-
-
-
-
-
-
-
 
             </div>
 

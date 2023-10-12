@@ -15,7 +15,7 @@
             <div class="item">
                 <div class="products">
                     <div class="hot-deal-wrapper">
-                        <div class="image"> <img src="{{ asset($deals->product_thumbnail) }}" alt=""> </div>
+                        <div class="image"> <img src="{{ URL::to('') }}/images/thumbnail/{{ $deals->product_thumbnail }}" alt=""> </div>
                         @php
                             $discount = $deals->product_selling_price - $deals->product_discount_price;
                            $percentage = ($discount/$deals->product_selling_price)*100;
@@ -58,10 +58,12 @@
 
                     <div class="cart clearfix animate-effect">
                         <div class="action">
-                            <div class="add-cart-button btn-group">
-                                <button class="btn btn-primary icon" data-toggle="dropdown" type="button"> <i class="fa fa-shopping-cart"></i> </button>
+                            <li class="add-cart-button btn-group">
+                                <button  modal_id="{{ $deals->id }}" class="btn btn-primary icon modal_btn "  type="button"> <i class="fa fa-shopping-cart"></i> </button>
                                 <button class="btn btn-primary cart-btn" type="button">Add to cart</button>
-                            </div>
+                            </li>
+
+                            <button type="button" id="{{ $deals->id }}" onclick="addToWishlist(this.id)" class="btn btn-primary icon modal_btn"  title="Wishlist"> <i class="icon fa fa-heart"></i> </button>
                         </div>
                         <!-- /.action -->
                     </div>

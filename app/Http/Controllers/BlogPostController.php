@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\AddPost;
 use App\Models\BlogCategory;
+use App\Models\Post;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Auth;
@@ -53,7 +54,7 @@ class BlogPostController extends Controller
             $unique_name = hexdec(uniqid()).'.'.$img->getClientOriginalExtension();
             Image::make($img)->resize(780,433)->save('images/blog/'.$unique_name);
         }
-            AddPost::insert([
+            Post::insert([
                 'blog_category_id' => $request->category_id,
                 'title_eng' => $request->title_eng,
                 'title_ban' => $request->title_ban,
@@ -73,7 +74,7 @@ class BlogPostController extends Controller
 
     }
     public function ViewNewPost(){
-        $posts = AddPost::with('category')->latest()->get();
+        $posts = Post::with('category')->latest()->get();
         return view('admin.blog.view_post',compact('posts'));
     }
 

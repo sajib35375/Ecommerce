@@ -15,25 +15,26 @@ use Illuminate\Support\Facades\Session;
 
 class StripeController extends Controller
 {
-    public function StripeOrder(Request $request){
+    public function StripeOrder(Request $request)
+    {
 
 
         \Stripe\Stripe::setApiKey('sk_test_51JQXKXEeQL3aThfwXWkUmLfrkq2GvG3dXlz2wArOqavl6w5dzwYoMkbhU9s30NhUWAjxNNhFVzC7ddUXkdksFwr900W8ZEzCdP');
-        if (Session::has('coupon')){
-            $total_amount = Session::get('coupon')['total_price'];
-        }else{
-            $total_amount = Cart::total();
+        if (Session::has('coupon') && Session::has('charge')) {
+            $total_amount = Session::get('coupon')['total_price'] + Session::get('charge')['ship_charge'];
+        } elseif (Session::has('charge')) {
+            $total_amount = Cart::total() + Session::get('charge')['ship_charge'];
+
         }
+            $token = $_POST['stripeToken'];
 
-        $token = $_POST['stripeToken'];
-
-        $charge = \Stripe\Charge::create([
-            'amount' => $total_amount*100,
-            'currency' => 'usd',
-            'description' => 'Sajib Online Shop',
-            'source' => $token,
-            'metadata' => ['order_id' => uniqid()],
-        ]);
+            $charge = \Stripe\Charge::create([
+                'amount' => $total_amount * 100,
+                'currency' => 'usd',
+                'description' => 'Sajib Online Shop',
+                'source' => $token,
+                'metadata' => ['order_id' => uniqid()],
+            ]);
 
             $order_id = Order::insertGetId([
                 'user_id' => Auth::id(),
@@ -53,7 +54,7 @@ class StripeController extends Controller
                 'currency' => $charge->currency,
                 'amount' => $total_amount,
                 'order_number' => $charge->metadata->order_id,
-                'invoice_number' => 'SOS'.mt_rand(10000000,99999999),
+                'invoice_number' => 'SOS' . mt_rand(10000000, 99999999),
                 'order_date' => Carbon::now()->format('d F Y'),
                 'order_month' => Carbon::now()->format('F'),
                 'order_year' => Carbon::now()->format('Y'),
@@ -64,7 +65,7 @@ class StripeController extends Controller
 
             $invoice = Order::find($order_id);
             $data = [
-               'invoice' => $invoice->invoice_number,
+                'invoice' => $invoice->invoice_number,
                 'amount' => $total_amount,
                 'name' => $request->name,
                 'email' => $request->email,
@@ -74,10 +75,10 @@ class StripeController extends Controller
 
             $carts = Cart::content();
 
-            foreach($carts as $cart){
+            foreach ($carts as $cart) {
                 OrderItem::insert([
-                   'order_id' => $order_id,
-                   'product_id' => $cart->id,
+                    'order_id' => $order_id,
+                    'product_id' => $cart->id,
                     'color' => $cart->options->color,
                     'size' => $cart->options->size,
                     'quantity' => $cart->qty,
@@ -85,7 +86,7 @@ class StripeController extends Controller
                     'created_at' => Carbon::now(),
                 ]);
             }
-            if (Session::has('coupon')){
+            if (Session::has('coupon')) {
                 Session::forget('coupon');
             }
             Cart::destroy();
@@ -96,17 +97,6 @@ class StripeController extends Controller
             );
             return redirect()->to('/')->with($notification);
 
+
+        }
     }
-
-
-
-
-
-
-
-
-
-
-
-
-}

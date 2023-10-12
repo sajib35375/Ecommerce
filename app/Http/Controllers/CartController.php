@@ -70,6 +70,7 @@ class CartController extends Controller
     public function couponApply(Request $request){
 
         $coupon = Coupon::where('coupon_name',$request->coupon_name)->where('coupon_validity','>=',Carbon::now()->format('Y-m-d'))->first();
+
         if($coupon){
             Session::put('coupon',[
                 'coupon_name' => $coupon->coupon_name,
@@ -86,17 +87,20 @@ class CartController extends Controller
         }
     }
     public function couponCalculation(){
-        if (Session::has('coupon')){
+        if (Session::has('coupon') && Session::has('charge')){
             return response()->json(array(
                 'subtotal' => Cart::total(),
                 'coupon_name' => session()->get('coupon')['coupon_name'],
                 'discount' => session()->get('coupon')['discount'],
                 'discount_amount' => session()->get('coupon')['discount_amount'],
-                'Grand_total' => session()->get('coupon')['total_price'],
+                'Grand_total' => session()->get('coupon')['total_price'] + session()->get('charge')['ship_charge'],
+                'ship_charge'=> session()->get('charge')['ship_charge']
             ));
-        }else{
+        }elseif( Session::has('charge') ){
             return response()->json(array(
-                'total' => Cart::total()
+                'subtotal' => Cart::total(),
+                'total' => Cart::total() + session()->get('charge')['ship_charge'],
+                'ship_charge'=> session()->get('charge')['ship_charge']
             ));
         }
     }
@@ -111,12 +115,20 @@ class CartController extends Controller
     public function checkout(){
         if(Auth::check()){
             if ( Cart::total() > 0 ){
+                if (Session::has('address')){
+                    $cart = Cart::content();
+                    $cartQty = Cart::count();
+                    $cartTotal = Cart::total();
+                    $division = Division::latest()->get();
+                    return view('frontend.checkout.view_checkout',compact('cart','cartQty','cartTotal','division'));
+                }else{
+                    $notification = array(
+                        'alert_type' => 'error',
+                        'message' => 'At first set your shipping location'
+                    );
+                    return redirect()->to('/')->with($notification);
+                }
 
-                $cart = Cart::content();
-                $cartQty = Cart::count();
-                $cartTotal = Cart::total();
-                $division = Division::latest()->get();
-                return view('frontend.checkout.view_checkout',compact('cart','cartQty','cartTotal','division'));
 
             }else{
                 $notification = array(

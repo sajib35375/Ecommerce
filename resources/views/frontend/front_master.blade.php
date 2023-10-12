@@ -12,7 +12,7 @@
     <meta name="author" content="{{ $seo->meta_author }}">
     <meta name="keywords" content="{{ $seo->meta_keywords }}">
     <meta name="robots" content="all">
-    <title>Flipmart premium HTML5 & CSS3 Template</title>
+    <title>Online Shop</title>
         <script>
             {{ $seo->google_analytics }}
         </script>
@@ -205,7 +205,7 @@
                     $('ul li #code').html(data.product.product_code);
                     $('ul li #brands').html(data.product.brand.brand_name_en);
                     $('ul li #category').html(data.product.category.category_name_en);
-                    $('#p_img').attr('src','/'+data.product.product_thumbnail);
+                    $('#p_img').attr('src','{{ URL::to('') }}/images/thumbnail/'+data.product.product_thumbnail);
                     $('#product_name').html(data.product.product_name_eng);
                     $('input[name="cart_id"]').val(data.product.id);
                     $('select[name="color"]').empty();
@@ -315,7 +315,7 @@
                   miniCart += `<div class="cart-item product-summary">
                             <div class="row">
                                 <div class="col-xs-4">
-                                    <div class="image"> <a href="detail.html"><img src="/${value.options.image}" alt=""></a> </div>
+                                    <div class="image"> <a href="detail.html"><img src="{{ URL::to('') }}/images/thumbnail/${value.options.image}" alt=""></a> </div>
                                 </div>
                                 <div class="col-xs-7">
                                     <h3 class="name"><a href="index.php?page-detail">${value.name}</a></h3>
@@ -419,7 +419,7 @@ function wishlist(){
             $.each(data,function (key,value){
                 rows += `
                 <tr>
-                    <td class="col-md-2"><img src="/${value.product.product_thumbnail}"></td>
+                    <td class="col-md-2"><img src="{{ URL::to('') }}/images/thumbnail/${value.product.product_thumbnail}"></td>
                     <td class="col-md-7">
                         <div class="product-name"><a href="#">${value.product.product_name_eng}</a></div>
                         <div class="rating">
@@ -508,7 +508,7 @@ function MyCert(){
             $.each(data.cart,function (key,value){
                 rows += `
                 <tr>
-                    <td  class="col-md-2"><img style="width: 80px;height: 80px;" src="/${value.options.image}"></td>
+                    <td  class="col-md-2"><img style="width: 80px;height: 80px;" src={{ URL::to('') }}/images/thumbnail/${value.options.image}></td>
                     <td class="col-md-2">
                             <div class="price">
                             ${value.price}
@@ -663,6 +663,7 @@ function cartDecrement(rowId){
     });
 function couponApply(){
     var coupon_name = $('#coupon_name').val();
+
     $.ajax({
         type:"POST",
         dataType:'json',
@@ -696,22 +697,63 @@ function couponApply(){
     })
 }
 
+
+    function shippingCharge(){
+
+         ship_charge = $('#ship_charge option:selected').text();
+
+
+        $.ajax({
+            type:"POST",
+            dataType: 'json',
+            data:{ship_charge:ship_charge},
+            url: "{{ url('/add-shipping-charge') }}",
+            success:function (data) {
+                couponCal();
+
+                const Toast = Swal.mixin({
+                    toast: true,
+                    position: 'top-end',
+                    showConfirmButton: false,
+                    timer: 1500,
+                });
+                if ($.isEmptyObject(data.error)) {
+                    Toast.fire({
+                        type: 'success',
+                        icon: 'success',
+                        title: data.success,
+                    });
+                } else {
+                    Toast.fire({
+                        type: 'error',
+                        icon: 'error',
+                        title: data.error,
+                    });
+                }
+            }
+        })
+    }
+    // shippingCharge();
 function couponCal(){
     $.ajax({
         type:"GET",
         dataType:'json',
         url:"{{ url('coupon/calculation') }}",
         success:function (data){
+            var d = $('.cart-ship-charge span').empty();
 
             if (data.total) {
                 $('#couponCal').html(
                     `<tr>
                         <th>
                             <div class="cart-sub-total">
-                                Subtotal<span class="inner-left-md">$ ${data.total}</span>
+                                Subtotal<span class="inner-left-md">$ ${data.subtotal}</span>
                             </div>
                             <div class="cart-grand-total">
                                 Grand Total<span class="inner-left-md">$ ${data.total}</span>
+                            </div>
+                               <div class="cart-ship-charge">
+                                Ship Charge<span class="inner-left-md">$ ${data.ship_charge}</span>
                             </div>
                         </th>
                     </tr>`
@@ -729,6 +771,10 @@ function couponCal(){
                             </div>
                              <div class="cart-sub-total">
                                 Discount Amount<span class="inner-left-md">$ ${data.discount_amount}</span>
+                            </div>
+                             </div>
+                               <div class="cart-ship-charge">
+                                Ship Charge<span class="inner-left-md">$ ${data.ship_charge}</span>
                             </div>
                             <div class="cart-grand-total">
                                 Grand Total<span class="inner-left-md">$ ${data.Grand_total}</span>
@@ -790,10 +836,11 @@ function couponRemove(){
     const site_url = "http://127.0.0.1:8000/";
     $("body").on("keyup",'#search',function (){
         let text = $('#search').val();
-        if (text.length >0){
+
+        if (text.length > 0){
         $.ajax({
             data:{search:text},
-            url:site_url+"advance/search/",
+            url:"{{ URL::to('') }}/advance/search/",
             method:"post",
             success:function (result){
                 $('#adsearch').html(result);
@@ -809,8 +856,59 @@ function couponRemove(){
 
 </script>
 
+<script>
+    // getAddress();
+function getAddress(){
+   let div = $('#division option:selected').text();
+   let div_id = $('#division option:selected').val();
+   let dis = $('#district option:selected').text();
+   let dis_id = $('#district option:selected').val();
+   let st = $('#state option:selected').text();
+   let st_id = $('#state option:selected').val();
+
+    $.ajax({
+        type:"POST",
+        dataType: "json",
+        data: {div:div,dis:dis,st:st,div_id:div_id,dis_id:dis_id,st_id:st_id},
+        url: "{{ url('shipping/address') }}",
+        success: function (data){
+            const Toast = Swal.mixin({
+                toast: true,
+                position: 'top-end',
+                showConfirmButton: false,
+                timer: 1500,
+            });
+            if ($.isEmptyObject(data.error)) {
+                Toast.fire({
+                    type: 'success',
+                    icon: 'success',
+                    title: data.success,
+                });
+            } else {
+                Toast.fire({
+                    type: 'error',
+                    icon: 'error',
+                    title: data.error,
+                });
+            }
+        }
+    })
+}
 
 
+
+
+</script>
+<script>
+    $(document).ready(function (){
+        $(document).on('click','#ship_btn',function (e){
+
+            $('#proceedCheck').show();
+
+        });
+
+    });
+</script>
 
 
 </body>

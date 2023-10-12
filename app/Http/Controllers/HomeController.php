@@ -6,6 +6,7 @@ use App\Models\AddPost;
 use App\Models\Brand;
 use App\Models\Category;
 use App\Models\MultiImg;
+use App\Models\Post;
 use App\Models\Product;
 use App\Models\Slider;
 use App\Models\SubCategory;
@@ -21,17 +22,21 @@ class HomeController extends Controller
         $sliders = Slider::where('status',1)->get();
         $products = Product::where('status',1)->latest()->get();
         $featured = Product::where('featured',1)->get();
-        $hot_deals = Product::where('hot_deals',1)->where('product_discount_price','!=',NULL)->get();
-        $special_offer = Product::where('special_offer',1)->get();
-        $special_deals = Product::where('special_deals',1)->get();
+        $hot_deals = Product::where('hot_deals',1)->where('product_discount_price','!=',NULL)->limit(4)->get();
+        $special_offer = Product::where('special_offer',1)->limit(4)->get();
+        $special_deals = Product::where('special_deals',1)->limit(4)->get();
 
         $skip_cat_0 = Category::skip(0)->first();
         $skip_product_0 = Product::where('status',1)->where('category_id',$skip_cat_0->id)->get();
+        $skip_cat_1 = Category::skip(1)->first();
+        $skip_product_1 = Product::where('status',1)->where('category_id',$skip_cat_1->id)->get();
         $skip_brand_0 = Brand::skip(0)->first();
         $skip_brand_product_0 = Product::where('status',1)->where('brand_id',$skip_brand_0->id)->get();
-        $posts = AddPost::latest()->get();
+        $skip_brand_1 = Brand::skip(1)->first();
+        $skip_brand_product_1 = Product::where('status',1)->where('brand_id',$skip_brand_1->id)->get();
+        $posts = Post::latest()->get();
 
-        return view('frontend.index',compact('all_cat','sliders','products','featured','hot_deals','special_offer','special_deals','skip_cat_0','skip_product_0','skip_brand_0','skip_brand_product_0','posts'));
+        return view('frontend.index',compact('all_cat','sliders','products','featured','hot_deals','special_offer','special_deals','skip_cat_0','skip_product_0','skip_brand_0','skip_brand_product_0','posts','skip_cat_1','skip_product_1','skip_brand_1','skip_brand_product_1'));
     }
     public function logout(){
         Auth::logout();
@@ -45,20 +50,23 @@ class HomeController extends Controller
     public function profileUpdate(Request $request){
         $id = Auth::user()->id;
         $profile_update = User::find($id);
+        $image = '';
         if ($img = $request->file('photo')){
 
             $unique_name = hexdec(uniqid());
             $ex_name = strtolower($img->getClientOriginalExtension());
-            $location = 'images/profile/';
+            $location = 'images/user/';
             $image = $unique_name.'.'.$ex_name;
-            $img->move(public_path('images/profile/'),$image);
-            $last_image = $location.$image;
+            $img->move(public_path('images/user/'),$image);
+
+        }else{
+            $image = $request->old_photo;
         }
 
         $profile_update->name = $request->name;
         $profile_update->email = $request->email;
         $profile_update->phone = $request->phone;
-        $profile_update->profile_photo_path = $last_image;
+        $profile_update->profile_photo_path = $image;
         $profile_update->update();
 
         $notification = array(
@@ -159,7 +167,7 @@ class HomeController extends Controller
         ]);
 
         $search = $request->search;
-        $products = Product::where('product_name_eng','LIKE',"%$search%")->select('product_name_eng','product_thumbnail','id')->limit(5)->get();
+        $products = Product::where('product_name_eng','LIKE',"%$search%")->limit(5)->get();
         return view('frontend.product.search_product',compact('products'));
     }
 

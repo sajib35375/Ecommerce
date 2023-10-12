@@ -33,7 +33,7 @@
                             <td>{{ $user->name }}</td>
                             <td>{{ $user->email  }}</td>
                             <td>{{ $user->phone  }}</td>
-                            <td><img style="width: 70px;height: 40px;" src="{{ !empty($user->profile_photo_path) ? asset($user->profile_photo_path) : url('images/joker.jpg')}}" alt=""></td>
+                            <td><img style="width: 70px;height: 40px;" src="{{ !empty('images/user/'.$user->profile_photo_path) ? url('images/user/'.$user->profile_photo_path) : url('images/joker.jpg') }}" alt=""></td>
                             <td>
                                 @if( $user->userOnline() )
                                 <span class="badge badge-info">Active</span>
@@ -42,7 +42,7 @@
                                 @endif
                             </td>
                             <td>
-                                <a class="btn btn-info" href="#">Edit</a>
+                                <a class="btn btn-info" href="{{ route('user.edit',$user->id) }}">Edit</a>
                                 <a class="btn btn-danger" href="#">Delete</a>
                             </td>
 

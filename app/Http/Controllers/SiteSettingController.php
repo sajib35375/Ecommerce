@@ -21,7 +21,7 @@ class SiteSettingController extends Controller
             $img = $request->file('logo');
             $unique_name = hexdec(uniqid()).'.'.$img->getClientOriginalExtension();
             Image::make($img)->resize(139,36)->save('images/logo/'.$unique_name);
-            unlink('images/logo/'.$request->old_logo);
+//            unlink('images/logo/'.$request->old_logo);
         }else{
             $unique_name = $request->old_logo;
         }

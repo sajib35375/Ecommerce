@@ -75,8 +75,37 @@ class AdminProfileController extends Controller
     }
 
 
+    public function UserEdit($id){
+        $edit_user = User::find($id);
+
+        return view('admin.user.edit_user',compact('edit_user'));
+
+    }
+
+    public function UserUpdate(Request $request,$id){
+        $update_data = User::find($id);
+        $unique_name = '';
+        if ($request->hasFile('photo')){
+            $img = $request->file('photo');
+            $unique_name = hexdec(uniqid()).'.'.$img->getClientOriginalExtension();
+            Image::make($img)->resize(200,200)->save('images/user/'.$unique_name);
+        }else{
+            $unique_name = $request->old_photo;
+        }
 
 
+        $update_data->name = $request->name;
+        $update_data->email = $request->email;
+        $update_data->phone = $request->phone;
+        $update_data->profile_photo_path = $unique_name;
+        $update_data->update();
+
+        $notification = array(
+            'message' => 'User Profile Updated Successfully',
+            'alert_type' => 'success',
+        );
+        return redirect()->back()->with($notification);
+    }
 
 
 

@@ -57,33 +57,37 @@
 
                 </div>
                 <!-- /.box -->
-
-
                 <div class="col-md-4">
-                    <h2>Add New Blog Category</h2>
-                    <hr>
-                    <form action="{{ route('blag.category.store') }}" method="POST" >
-                        @csrf
-                        <div class="form-group">
-                            <label for="#">Blog Category Name English</label>
-                            <input name="blog_cat_eng" class="form-control" type="text">
-                            @error('blog_cat_eng')
-                            <span class="text-danger">{{ $message }}</span>
-                            @enderror
-                        </div>
-                        <div class="form-group">
-                            <label for="#">Blog Category Name Bangla</label>
-                            <input name="blog_cat_ban" class="form-control" type="text">
-                            @error('blog_cat_ban')
-                            <span class="text-danger">{{ $message }}</span>
-                            @enderror
-                        </div>
+               <div class="card">
+                   <div class="card-header">
+                       <h2>Add New Blog Category</h2>
+                   </div>
+                   <div class="card-body">
 
-                        <div class="form-group">
-                            <input value="Add" class="btn btn-success" type="submit">
-                        </div>
-                    </form>
-                </div>
+                           <form action="{{ route('blag.category.store') }}" method="POST" >
+                               @csrf
+                               <div class="form-group">
+                                   <label for="#">Blog Category Name English</label>
+                                   <input name="blog_cat_eng" class="form-control" type="text">
+                                   @error('blog_cat_eng')
+                                   <span class="text-danger">{{ $message }}</span>
+                                   @enderror
+                               </div>
+                               <div class="form-group">
+                                   <label for="#">Blog Category Name Bangla</label>
+                                   <input name="blog_cat_ban" class="form-control" type="text">
+                                   @error('blog_cat_ban')
+                                   <span class="text-danger">{{ $message }}</span>
+                                   @enderror
+                               </div>
+
+                               <div class="form-group">
+                                   <input value="Add" class="btn btn-success" type="submit">
+                               </div>
+                           </form>
+                       </div>
+                   </div>
+               </div>
 
 
 

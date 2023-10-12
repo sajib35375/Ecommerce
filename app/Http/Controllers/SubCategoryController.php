@@ -54,6 +54,16 @@ class SubCategoryController extends Controller
             );
             return redirect()->route('all.subcategory')->with($notification);
     }
+
+    public function EditSubShow($id){
+        $subcategory = SubCategory::where('category_id',$id)->get();
+
+        return response()->json($subcategory);
+    }
+
+
+
+
     public function DeleteSub($id){
         $delete_sub = SubCategory::find($id);
         $delete_sub->delete();

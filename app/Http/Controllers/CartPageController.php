@@ -3,15 +3,48 @@
 namespace App\Http\Controllers;
 
 use App\Models\Coupon;
-use Gloudemans\Shoppingcart\Facades\Cart;
+use App\Models\District;
+use App\Models\Division;
+use App\Models\State;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
+use Gloudemans\Shoppingcart\Facades\Cart;
 
 class CartPageController extends Controller
 {
     public function ViewMyCert(){
-        return view('frontend.cart.cart_view');
+        $divisions = Division::all();
+
+        return view('frontend.cart.cart_view',compact('divisions'));
     }
+
+    public function ShowDistrict($id){
+        $districts = District::where('division_id',$id)->get();
+
+        return json_encode($districts);
+    }
+
+    public function showState($id){
+        $states = State::where('district_id',$id)->get();
+
+        return json_encode($states);
+    }
+
+    public function showShippingCharge($id){
+        $charge = State::where('id',$id)->get();
+
+        return json_encode($charge);
+    }
+
+    public function addShipping(Request $request){
+        $charge = $request->ship_charge;
+
+        Session::put('charge',[
+            'ship_charge' => $charge
+        ]);
+        return response()->json(['success'=>'ShipCharge apply successfully']);
+    }
+
 
     public function LoadMyCert(){
         $cart = Cart::content();
@@ -67,5 +100,17 @@ class CartPageController extends Controller
 
         return response()->json(['success'=>'cart quantity decrement successfully']);
     }
+
+    public function shippingAddress(Request $request){
+        Session::put('address',[
+            'division' => $request->div,
+            'district' => $request->dis,
+            'state' => $request->st,
+            'division_id' => $request->div_id,
+            'district_id' => $request->dis_id,
+            'state_id' => $request->st_id,
+        ]);
+    }
+
 
 }

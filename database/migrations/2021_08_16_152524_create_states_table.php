@@ -18,6 +18,7 @@ class CreateStatesTable extends Migration
             $table->integer('division_id');
             $table->integer('district_id');
             $table->string('state_name');
+            $table->unsignedBigInteger('Shipping_charge')->nullable();
             $table->timestamps();
         });
     }

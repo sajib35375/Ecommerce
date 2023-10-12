@@ -302,7 +302,7 @@
                                                 <div class="products">
                                                     <div class="product">
                                                         <div class="product-image">
-                                                            <div class="image"> <a href="{{ route('product.details',$product->id) }}"><img  src="{{ asset( $product->product_thumbnail ) }}" alt=""></a> </div>
+                                                            <div class="image"> <a href="{{ route('product.details',$product->id) }}"><img  src="{{ URL::to('') }}/images/thumbnail/{{  $product->product_thumbnail }}" alt=""></a> </div>
                                                             <!-- /.image -->
                                                             @php
                                                                 $discount = $product->product_selling_price - $product->product_discount_price;
@@ -374,7 +374,7 @@
                                                     <div class="row product-list-row">
                                                         <div class="col col-sm-4 col-lg-4">
                                                             <div class="product-image">
-                                                                <a class="image"><a href="{{ route('product.details',$product->id) }}"> <img src="{{ asset($product->product_thumbnail) }}" alt=""></a> </div>
+                                                                <a class="image"><a href="{{ route('product.details',$product->id) }}"> <img src="{{ URL::to('') }}/images/thumbnail/{{  $product->product_thumbnail }}" alt=""></a> </div>
                                                         </div>
                                                         <!-- /.product-image -->
                                                     </div>

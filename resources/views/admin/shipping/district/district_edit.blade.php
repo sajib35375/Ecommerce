@@ -29,7 +29,9 @@
 
                         <div class="form-group">
                             <label for="#">District Name</label>
-                            <input name="district_name" value="{{ $edit_data->district_name }}" class="form-control" type="text">
+                            <select class="form-control" name="district_id" id="">
+                                <option value="">-Select-</option>
+                            </select>
                             @error('district_name')
                             <span class="text-danger">{{ $message }}</span>
                             @enderror

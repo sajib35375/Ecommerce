@@ -20,6 +20,8 @@ class CheckoutController extends Controller
     }
     public function checkOutStore(Request $request){
 
+
+
        $data = array();
        $data['division_id'] = $request->division_id;
        $data['district_id'] = $request->district_id;
@@ -29,7 +31,7 @@ class CheckoutController extends Controller
        $data['shipping_phone'] = $request->phone;
        $data['post_code'] = $request->post_code;
        $data['note'] = $request->note;
-        $cartTotal = Cart::total();
+        $cartTotal = Cart::total() + session()->get('charge')['ship_charge'];
 
 
         if ($request->payment=='stripe') {

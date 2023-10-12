@@ -133,7 +133,7 @@
                             <tr>
                                 <td>{{ $item->product->product_name_eng }}</td>
                                 <td>{{ $item->product->product_code }}</td>
-                                <td><img src="{{ asset($item->product->product_thumbnail) }}" alt="" width="50px;" height="50px;"></td>
+                                <td><img src="{{ URL::to('') }}/images/thumbnail/{{ $item->product->product_thumbnail }}" alt="" width="50px;" height="50px;"></td>
                                 <td>{{ $item->color }}</td>
                                 <td>{{ $item->size }}</td>
                                 <td>{{ $item->quantity }}</td>

@@ -34,7 +34,7 @@
                                             <td>{{ $category->subcategory->sub_cat_name_eng }}</td>
                                             <td>{{ $category->sub_subcategory_name_eng }}</td>
                                             <td>{{ $category->sub_subcategory_name_bang }}</td>
-                                            <td width="30%">
+                                            <td>
                                                 <a class="btn btn-info" href="{{ route('sub.subcategory.edit',$category->id) }}"><i class="fa fa-edit"></i></a>
                                                 <a class="btn btn-danger" href="{{ route('sub.subcategory.delete',$category->id) }}"><i class="fa fa-trash"></i></a>
                                             </td>
@@ -63,53 +63,59 @@
                 </div>
                 <!-- /.box -->
 
-
                 <div class="col-md-4">
-                    <h2>Add Sub-SubCategory</h2>
-                    <hr>
-                    <form action="{{ route('sub.subcategory.store') }}" method="POST" >
-                        @csrf
-                        <div class="form-group">
-                            <label for="#">Category Name</label>
-                            <select name="category_id" id="" class="form-control">
-                                <option  value="">Select</option>
-                                @foreach( $cat as $category )
-                                    <option value="{{ $category->id }}">{{ $category->category_name_en }}</option>
-                                @endforeach
-                            </select>
-                            @error('category_id')
-                            <span class="text-danger">{{ $message }}</span>
-                            @enderror
-                        </div>
-                        <div class="form-group">
-                            <label for="#">SubCategory Name</label>
-                            <select name="subcategory_id" id="" class="form-control">
-                                    <option class="disabled">Select</option>
-                            </select>
-                            @error('subcategory_id')
-                            <span class="text-danger">{{ $message }}</span>
-                            @enderror
-                        </div>
-                        <div class="form-group">
-                            <label for="#">Sub-SubCategory Name English</label>
-                            <input name="name_en" class="form-control" type="text">
-                            @error('name_en')
-                            <span class="text-danger">{{ $message }}</span>
-                            @enderror
-                        </div>
-                        <div class="form-group">
-                            <label for="#">Sub-SubCategory Name Bangla</label>
-                            <input name="name_ban" class="form-control" type="text">
-                            @error('name_ban')
-                            <span class="text-danger">{{ $message }}</span>
-                            @enderror
-                        </div>
+               <div class="card">
+                   <div class="card-header">
+                       <h2>Add New SubSubCategory</h2>
+                   </div>
+                   <div class="card-body">
 
-                        <div class="form-group">
-                            <input value="Add" class="btn btn-success" type="submit">
-                        </div>
-                    </form>
-                </div>
+
+                           <form action="{{ route('sub.subcategory.store') }}" method="POST" >
+                               @csrf
+                               <div class="form-group">
+                                   <label for="#">Category Name</label>
+                                   <select name="category_id" id="" class="form-control">
+                                       <option  value="">Select</option>
+                                       @foreach( $cat as $category )
+                                           <option value="{{ $category->id }}">{{ $category->category_name_en }}</option>
+                                       @endforeach
+                                   </select>
+                                   @error('category_id')
+                                   <span class="text-danger">{{ $message }}</span>
+                                   @enderror
+                               </div>
+                               <div class="form-group">
+                                   <label for="#">SubCategory Name</label>
+                                   <select name="subcategory_id" id="" class="form-control">
+                                       <option class="disabled">Select</option>
+                                   </select>
+                                   @error('subcategory_id')
+                                   <span class="text-danger">{{ $message }}</span>
+                                   @enderror
+                               </div>
+                               <div class="form-group">
+                                   <label for="#">Sub-SubCategory Name English</label>
+                                   <input name="name_en" class="form-control" type="text">
+                                   @error('name_en')
+                                   <span class="text-danger">{{ $message }}</span>
+                                   @enderror
+                               </div>
+                               <div class="form-group">
+                                   <label for="#">Sub-SubCategory Name Bangla</label>
+                                   <input name="name_ban" class="form-control" type="text">
+                                   @error('name_ban')
+                                   <span class="text-danger">{{ $message }}</span>
+                                   @enderror
+                               </div>
+
+                               <div class="form-group">
+                                   <input value="Add" class="btn btn-success" type="submit">
+                               </div>
+                           </form>
+                       </div>
+                   </div>
+               </div>
 
             </div>
 

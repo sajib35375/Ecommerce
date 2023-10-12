@@ -60,29 +60,28 @@
                                             <!-- already-registered-login -->
                                             <div class="col-md-4 already-registered-login">
 
-
+                                                @if(Session::has('address'))
 
                                                     <div class="form-group">
-                                                        <label class="info-title" for="exampleInputEmail1">Division Name<span>*</span></label>
-                                                        <select name="division_id" id="" class="form-control">
-                                                            <option value="">-Select-</option>
-                                                            @foreach( $division as $item )
-                                                            <option value="{{ $item->id }}">{{ $item->division_name }}</option>
-                                                            @endforeach
+                                                        <label class="info-title" for="exampleInputEmail1">Division Name<span>*</span></label><br>
+                                                        <select name="division_id" id="">
+                                                            <option value="{{ session()->get('address')['division_id'] }}">{{ session()->get('address')['division'] }}</option>
                                                         </select>
+
                                                     </div>
                                                 <div class="form-group">
-                                                    <label class="info-title" for="exampleInputEmail1">District Name<span>*</span></label>
-                                                    <select name="district_id" id="" class="form-control">
-
+                                                    <label class="info-title" for="exampleInputEmail1">District Name<span>*</span></label><br>
+                                                    <select name="district_id" id="">
+                                                        <option value="{{ session()->get('address')['district_id'] }}">{{ session()->get('address')['district'] }}</option>
                                                     </select>
                                                 </div>
                                                 <div class="form-group">
-                                                    <label class="info-title" for="exampleInputEmail1">State Name<span>*</span></label>
-                                                    <select name="state_id" id="" class="form-control">
-
+                                                    <label class="info-title" for="exampleInputEmail1">State Name<span>*</span></label><br>
+                                                    <select name="state_id" id="">
+                                                        <option value="{{ session()->get('address')['state_id'] }}">{{ session()->get('address')['state'] }}</option>
                                                     </select>
                                                 </div>
+                                                @endif
                                                 <div class="form-group">
                                                     <label class="info-title" for="exampleInputEmail1">Notes<span>*</span></label>
                                                     <textarea class="form-control" name="note"  cols="30" rows="10"></textarea>
@@ -110,7 +109,7 @@
                                                                         @foreach( $cart as $item )
                                                                             <li>
                                                                                 <strong>Image:</strong>
-                                                                                <img src="{{ $item->options->image }}" alt="" style="width: 50px;height: 50px;"><br>
+                                                                                <img src="{{ URL::to('') }}/images/thumbnail/{{ $item->options->image }}" alt="" style="width: 50px;height: 50px;"><br>
                                                                                 <strong>Quantity:</strong>{{ $item->qty }}<br>
                                                                                 <strong>Color:</strong>{{ $item->options->color }}<br>
                                                                                 <strong>Size:</strong>{{ $item->options->size }}
@@ -118,15 +117,17 @@
 
 
                                                                         @endforeach
-                                                                        @if( Session::has('coupon') )
+                                                                        @if( Session::has('coupon') && Session::has('charge'))
                                                                             <li><strong>SubTotal :</strong>{{ $cartTotal }}</li>
                                                                             <li><strong>Coupon Name :</strong>{{ session()->get('coupon')['coupon_name'] }}</li>
                                                                             <li><strong>Discount :</strong>{{ session()->get('coupon')['discount'] }}%</li>
                                                                             <li><strong>Discount Amount :</strong>{{ session()->get('coupon')['discount_amount'] }}</li>
-                                                                            <li><strong>Grand Total :</strong>{{ session()->get('coupon')['total_price'] }}</li>
-                                                                        @else
+                                                                            <li><strong>Shipping Charge :</strong>{{ session()->get('charge')['ship_charge'] }}</li>
+                                                                            <li><strong>Grand Total :</strong>{{ session()->get('coupon')['total_price'] + session()->get('charge')['ship_charge'] }}</li>
+                                                                        @elseif(Session::has('charge'))
                                                                             <li><strong>SubTotal :</strong>{{ $cartTotal }}</li>
-                                                                            <li><strong>Grand Total :</strong>{{ $cartTotal }}</li>
+                                                                                <li><strong>Shipping Charge :</strong>{{ session()->get('charge')['ship_charge'] }}</li>
+                                                                            <li><strong>Grand Total :</strong>{{ $cartTotal + session()->get('charge')['ship_charge'] }}</li>
                                                                         @endif
 
 
@@ -208,6 +209,7 @@
             <script>
                 $(document).ready(function (){
                     $('select[name="division_id"]').change(function (){
+
                         let id = $(this).val();
                         if (id){
                             $.ajax({

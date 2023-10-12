@@ -2,8 +2,9 @@
 @section('admin')
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <!-- Content Wrapper. Contains page content -->
+    <?php
 
-
+?>
 <div class="container-full">
     <!-- Main content -->
     <section class="content">
@@ -57,7 +58,7 @@
                                             <div class="form-group">
                                                 <h5>SubCategory Name <span class="text-danger">*</span></h5>
                                                 <select name="subcategory_id" id="" class="form-control">
-                                                    <option class="disabled">Select</option>
+                                                    <option value="">Select</option>
                                                     @foreach( $subcategory as $item )
                                                         <option value="{{ $item->id }}" {{ $item->id == $products->subcategory_id ? 'selected' : '' }}>{{ $item->sub_cat_name_eng }}</option>
                                                     @endforeach
@@ -76,7 +77,7 @@
                                             <div class="form-group">
                                                 <h5>SubSubCategory Name English<span class="text-danger">*</span></h5>
                                                 <select name="sub_subcategory_id" class="form-control">
-                                                    <option class="disabled" value="">Select</option>
+                                                    <option value="">Select</option>
                                                     @foreach( $subsubcategory as $subsub )
                                                         <option value="{{ $subsub->id }}" {{ $subsub->id == $products->sub_subcategory_id ? 'selected' : '' }}>{{ $subsub->sub_subcategory_name_eng }}</option>
                                                     @endforeach
@@ -176,7 +177,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    {{--                                                end 4th row--}}
+                                    {{--end 4th row--}}
 
                                     <div class="row">
                                         <div class="col-md-4">
@@ -211,9 +212,9 @@
                                             </div>
                                         </div>
                                     </div>
-                                    {{--                                            end 5th row--}}
+                                    {{--end 5th row--}}
 
-                                    {{--                                            start 6th row--}}
+                                    {{--start 6th row--}}
 
                                     <div class="row">
                                         <div class="col-md-6">
@@ -221,9 +222,7 @@
                                                 <h5> Product Discount Price<span class="text-danger">*</span></h5>
 
                                                 <input type="text" name="product_discount_price" class="form-control" value="{{ $products->product_discount_price }}">
-                                                @error('product_discount_price')
-                                                <span class="text-danger">{{ $message }}</span>
-                                                @enderror
+
                                             </div>
                                         </div>
 
@@ -233,10 +232,8 @@
 
                                                 <input type="file" name="product_thumbnail" class="form-control-file" >
                                                 <input type="hidden" name="old_photo" value="{{ $products->product_thumbnail }}" >
-                                                <img style="width: 100px;height: 100px;"  id="image" src="{{ asset($products->product_thumbnail) }}" alt="">
-                                                @error('product_thumbnail')
-                                                <span class="text-danger">{{ $message }}</span>
-                                                @enderror
+                                                <img style="width: 100px;height: 100px;"  id="image" src="{{ URL::to('') }}/images/thumbnail/{{ $products->product_thumbnail }}" alt="">
+
                                             </div>
                                         </div>
 {{--                                        <div class="col-md-4">--}}
@@ -251,7 +248,7 @@
 {{--                                            </div>--}}
 {{--                                        </div>--}}
                                     </div>
-                                    {{--                                            end 6th row--}}
+                                    {{--end 6th row--}}
 
                                     <div class="row">
                                         <div class="col-md-6">
@@ -260,6 +257,9 @@
                                                 <div class="controls">
                                                     <textarea name="product_short_des_eng" id="textarea" class="form-control" required placeholder="Short-description-eng">{{ $products->product_short_des_eng }}</textarea>
                                                 </div>
+                                                @error('product_short_des_eng')
+                                                <span class="text-danger">{{ $message }}</span>
+                                                @enderror
                                             </div>
                                         </div>
                                         <div class="col-md-6">
@@ -268,11 +268,14 @@
                                                 <div class="controls">
                                                     <textarea name="product_short_des_ban" id="textarea" class="form-control" required placeholder="Short-description-ban">{{ $products->product_short_des_ban }}</textarea>
                                                 </div>
+                                                @error('product_short_des_ban')
+                                                <span class="text-danger">{{ $message }}</span>
+                                                @enderror
                                             </div>
                                         </div>
                                     </div>
 
-                                    {{--                                            end 7th row--}}
+                                    {{--end 7th row--}}
 
                                     <div class="row">
                                         <div class="col-md-6">
@@ -282,6 +285,9 @@
                                                 <textarea id="editor1" name="product_long_des_eng" rows="10" cols="80">
                                                              {!! $products->product_long_des_eng !!}
                                                         </textarea>
+                                                @error('product_long_des_eng')
+                                                <span class="text-danger">{{ $message }}</span>
+                                                @enderror
 
                                             </div>
                                         </div>
@@ -292,7 +298,9 @@
                                                 <textarea id="editor2" name="product_long_des_ban" rows="10" cols="80">
                                                             {!! $products->product_long_des_ban !!}
                                                         </textarea>
-
+                                                @error('product_long_des_ban')
+                                                <span class="text-danger">{{ $message }}</span>
+                                                @enderror
                                             </div>
                                         </div>
                                     </div>
@@ -370,7 +378,7 @@
                         <form method="POST" action="{{ route('update.multiImg') }}" enctype="multipart/form-data">
                             @csrf
                             <div class="row row-sm">
-                                @foreach($multi_img as $multi)
+                                @foreach( $multi_img as $multi )
                                 <div class="col-md-3">
                                     <div class="card">
                                         <div class="card-body">
@@ -400,61 +408,73 @@
     </section>
 
 
-
-
-
-
-
-
-
-
-
-
-
-
 </div>
 
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     <script>
+
+
+
         $(document).ready(function (){
+
+            {{--$(document).on('click','#editCatLOad',function (){--}}
+            {{--    let id = $(this).val();--}}
+
+            {{--    if (id){--}}
+            {{--        $.ajax({--}}
+            {{--            url:"{{ url('show-subcategory') }}/"+id,--}}
+            {{--            method:"GET",--}}
+            {{--            dataType:"json",--}}
+            {{--            success:function (data){--}}
+            {{--                $('select[name="subcategory_id"]').html('');--}}
+            {{--                var d = $('select[name="subcategory_id"]').empty();--}}
+
+            {{--                $.each(data,function (key,value){--}}
+            {{--                    // let sub_id = $('select[name="subcategory_id"]').val();--}}
+
+            {{--                    $('select[name="subcategory_id"]').append('<option value="'+value.id+'">'+value.sub_cat_name_eng+'</option>');--}}
+            {{--                    // if(value.id==sub_id){--}}
+            {{--                    //     $('select[name="subcategory_id"]').append('<option selected value="'+value.id+'">'+value.sub_cat_name_eng+'</option>');--}}
+            {{--                    // }else{--}}
+            {{--                    // $('select[name="subcategory_id"]').append('<option  value="'+value.id+'">'+value.sub_cat_name_eng+'</option>');--}}
+            {{--                    // }--}}
+
+
+            {{--                });--}}
+
+
+            {{--            }--}}
+            {{--        });--}}
+            {{--    }else {--}}
+            {{--        alert('danger');--}}
+            {{--    }--}}
+            {{--})--}}
+
             $('select[name="category_id"]').change(function (){
                 let id = $(this).val();
-
+                let selected_sub_id= "<?= $products->subcategory_id;?>";
                 if (id){
                     $.ajax({
                         url:"{{ url('show-subcategory') }}/"+id,
                         method:"GET",
                         dataType:"json",
                         success:function (data){
-                            $('select[name="sub_subcategory_id"]').html('');
+                            $('select[name="subcategory_id"]').html('');
                             var d = $('select[name="subcategory_id"]').empty();
+
                             $.each(data,function (key,value){
-                                $('select[name="subcategory_id"]').append('<option value="'+value.id+'">'+value.sub_cat_name_eng+'</option>');
+                                // let sub_id = $('select[name="subcategory_id"]').val();
+
+                                $('select[name="subcategory_id"]').append('<option value.id==selected_sub_id ? selected: value="'+value.id+'">'+value.sub_cat_name_eng+'</option>');
+                                // if(value.id==sub_id){
+                                //     $('select[name="subcategory_id"]').append('<option selected value="'+value.id+'">'+value.sub_cat_name_eng+'</option>');
+                                // }else{
+                                // $('select[name="subcategory_id"]').append('<option  value="'+value.id+'">'+value.sub_cat_name_eng+'</option>');
+                                // }
+
+
                             });
 
 
@@ -465,8 +485,13 @@
                 }
             });
 
+            // $(document).on('load','select[name="subcategory_id"]',function (){
+            //
+            // })
+
             $('select[name="subcategory_id"]').change(function (){
                 let sub_id = $(this).val();
+
                 if (sub_id){
                     $.ajax({
                         url:"{{ url('show-SubSubCategory') }}/"+sub_id,

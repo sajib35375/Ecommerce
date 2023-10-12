@@ -4,7 +4,7 @@
     <div class="container">
         <div class="row">
             <div class="col-md-3">
-                <img style="height: 100%; width: 100%;border-radius: 50%;" src="{{ !empty($profile->profile_photo_path) ? url($profile->profile_photo_path) : url('images/joker.jpg') }}" alt="">
+                <img style="height: 270px; width: 270px;border-radius: 50%;margin: auto;display: block;" src="{{ !empty('images/user/'.$profile->profile_photo_path) ? url('images/user/'.$profile->profile_photo_path) : url('images/joker.jpg') }}" alt="">
                 <a class="btn btn-primary btn-block" href="{{ url('/dashboard') }}">Home</a>
                 <a class="btn btn-primary btn-block" href="{{ route('user.profile') }}">Profile Update</a>
                 <a class="btn btn-primary btn-block" href="{{ route('user.change.password') }}">Change Password</a>
@@ -32,7 +32,8 @@
                     </div>
                     <div class="form-group">
                         <label for="#">Photo</label>
-                        <input name="photo" class="form-control-file" value="{{ $profile->profile_photo_path }}" type="file">
+                        <input name="old_photo" value="{{ $profile->profile_photo_path }}" type="hidden">
+                        <input name="photo" class="form-control-file"  type="file">
                     </div>
                     <div class="form-group">
                         <input value="Update" class="btn btn-info btn-sm" type="submit">

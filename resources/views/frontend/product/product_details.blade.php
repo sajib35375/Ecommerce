@@ -273,7 +273,7 @@
                                 <ul id="product-tabs" class="nav nav-tabs nav-tab-cell">
                                     <li class="active"><a data-toggle="tab" href="#description">DESCRIPTION</a></li>
                                     <li><a data-toggle="tab" href="#review">REVIEW</a></li>
-                                    <li><a data-toggle="tab" href="#tags">TAGS</a></li>
+{{--                                    <li><a data-toggle="tab" href="#tags">TAGS</a></li>--}}
                                 </ul><!-- /.nav-tabs #product-tabs -->
                             </div>
                             <div class="col-sm-9">
@@ -298,7 +298,7 @@
                                                     @endphp
                                                     @foreach( $reviews as $review )
                                                         <div class="col-md-3">
-                                                            <img style="width: 50px;height: 50px;border-radius: 50%;" src="{{ !empty($review->user->profile_photo_path) ? url($review->user->profile_photo_path) : url('images/joker.jpg') }}" alt="">
+                                                            <img style="width: 50px;height: 50px;border-radius: 50%;" src="{{ !empty('images/user/'.$review->user->profile_photo_path) ? url('images/user/'.$review->user->profile_photo_path) : url('images/joker.jpg') }}" alt="">
                                                             <b style="color: #00CBA0;">{{ $review->user->name }}</b>
                                                         </div>
                                                     <div class="review">
@@ -359,33 +359,33 @@
                                         </div><!-- /.product-tab -->
                                     </div><!-- /.tab-pane -->
 
-                                    <div id="tags" class="tab-pane">
-                                        <div class="product-tag">
+{{--                                    <div id="tags" class="tab-pane">--}}
+{{--                                        <div class="product-tag">--}}
 
-                                            <h4 class="title">Product Tags</h4>
-                                            <form role="form" class="form-inline form-cnt">
-                                                <div class="form-container">
+{{--                                            <h4 class="title">Product Tags</h4>--}}
+{{--                                            <form role="form" class="form-inline form-cnt">--}}
+{{--                                                <div class="form-container">--}}
 
-                                                    <div class="form-group">
-                                                        <label for="exampleInputTag">Add Your Tags: </label>
-                                                        <input type="email" id="exampleInputTag" class="form-control txt">
+{{--                                                    <div class="form-group">--}}
+{{--                                                        <label for="exampleInputTag">Add Your Tags: </label>--}}
+{{--                                                        <input type="email" id="exampleInputTag" class="form-control txt">--}}
 
 
-                                                    </div>
+{{--                                                    </div>--}}
 
-                                                    <button class="btn btn-upper btn-primary" type="submit">ADD TAGS</button>
-                                                </div><!-- /.form-container -->
-                                            </form><!-- /.form-cnt -->
+{{--                                                    <button class="btn btn-upper btn-primary" type="submit">ADD TAGS</button>--}}
+{{--                                                </div><!-- /.form-container -->--}}
+{{--                                            </form><!-- /.form-cnt -->--}}
 
-                                            <form role="form" class="form-inline form-cnt">
-                                                <div class="form-group">
-                                                    <label>&nbsp;</label>
-                                                    <span class="text col-md-offset-3">Use spaces to separate tags. Use single quotes (') for phrases.</span>
-                                                </div>
-                                            </form><!-- /.form-cnt -->
+{{--                                            <form role="form" class="form-inline form-cnt">--}}
+{{--                                                <div class="form-group">--}}
+{{--                                                    <label>&nbsp;</label>--}}
+{{--                                                    <span class="text col-md-offset-3">Use spaces to separate tags. Use single quotes (') for phrases.</span>--}}
+{{--                                                </div>--}}
+{{--                                            </form><!-- /.form-cnt -->--}}
 
-                                        </div><!-- /.product-tab -->
-                                    </div><!-- /.tab-pane -->
+{{--                                        </div><!-- /.product-tab -->--}}
+{{--                                    </div><!-- /.tab-pane -->--}}
 
                                 </div><!-- /.tab-content -->
                             </div><!-- /.col -->
@@ -403,7 +403,7 @@
                                     <div class="product">
                                         <div class="product-image">
                                             <div class="image">
-                                                <a href="{{ route('product.details',$product->id) }}"><img  src="{{ asset( $product->product_thumbnail ) }}" alt=""></a>
+                                                <a href="{{ route('product.details',$product->id) }}"><img  src="{{ URL::to('') }}/images/thumbnail/{{ $product->product_thumbnail }}" alt=""></a>
                                             </div><!-- /.image -->
                                             @php
                                                 $amount = $product->product_selling_price - $product->product_discount_price;
@@ -440,7 +440,7 @@
                                                         <button class="btn btn-primary icon" data-toggle="dropdown" type="button">
                                                             <i class="fa fa-shopping-cart"></i>
                                                         </button>
-                                                        <button class="btn btn-primary" type="button">Add to cart</button>
+{{--                                                        <button class="btn btn-primary" type="button">Add to cart</button>--}}
 
                                                     </li>
 

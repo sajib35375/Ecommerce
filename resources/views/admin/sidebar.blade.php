@@ -33,7 +33,7 @@ $route = Route::current()->getName();
         $slider = (auth()->guard('admin')->user()->slider == 1);
         $coupon = (auth()->guard('admin')->user()->coupon == 1);
         $shipping = (auth()->guard('admin')->user()->shipping == 1);
-        $order = (auth()->guard('admin')->user()->order == 1);
+        $order = (auth()->guard('admin')->user()->order_pro == 1);
         $report = (auth()->guard('admin')->user()->report == 1);
         $user = (auth()->guard('admin')->user()->user == 1);
         $stock = (auth()->guard('admin')->user()->stock == 1);

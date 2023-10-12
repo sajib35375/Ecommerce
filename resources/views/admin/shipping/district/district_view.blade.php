@@ -60,56 +60,52 @@
 
                 </div>
                 <!-- /.box -->
-
-
-
                 <div class="col-md-4">
-                    <h2>Add District</h2>
-                    <hr>
+
+                <div class="card">
+                    <div class="card-header">
+                        <h2>Add New District</h2>
+                    </div>
                     <div class="card-body">
-                        <form action="{{ route('store.district') }}" method="POST" >
-                            @csrf
-                            <div class="form-group">
-                                <label for="#">Division Name</label>
-                                <select class="form-control" name="division_id" id="">
-                                    <option value="" >-Select-</option>
-                                    @foreach( $division as $div )
 
-                                    <option value="{{ $div->id }}">{{ $div->division_name }}</option>
-                                    @endforeach
-                                </select>
-                                @error('division_name')
-                                <span class="text-danger">{{ $message }}</span>
-                                @enderror
-                            </div>
 
-                            <div class="form-group">
-                                <label for="#">District Name</label>
-                                <input name="district_name" class="form-control" type="text">
-                                @error('district_name')
-                                <span class="text-danger">{{ $message }}</span>
-                                @enderror
-                            </div>
+                                <form action="{{ route('store.district') }}" method="POST" >
+                                    @csrf
+                                    <div class="form-group">
+                                        <label for="#">Division Name</label>
+                                        <select class="form-control" name="division_id" id="">
+                                            <option value="" >-Select-</option>
+                                            @foreach( $division as $div )
 
-                            <div class="form-group">
-                                <input value="Add" class="btn btn-success" type="submit">
+                                                <option value="{{ $div->id }}">{{ $div->division_name }}</option>
+                                            @endforeach
+                                        </select>
+                                        @error('division_name')
+                                        <span class="text-danger">{{ $message }}</span>
+                                        @enderror
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="#">District Name</label>
+                                        <input name="district_name" class="form-control" type="text">
+                                        @error('district_name')
+                                        <span class="text-danger">{{ $message }}</span>
+                                        @enderror
+                                    </div>
+
+                                    <div class="form-group">
+                                        <input value="Add" class="btn btn-success" type="submit">
+                                    </div>
+                                </form>
                             </div>
-                        </form>
+                        </div>
+
                     </div>
                 </div>
 
-
-
-
-
-
-
-
-
-
             </div>
 
-        </div>
+
 
     </section>
 

@@ -79,8 +79,20 @@ class ShippingController extends Controller
     public function DistrictEdit($id){
         $edit_data = District::find($id);
         $div_data = Division::all();
+
         return view('admin.shipping.district.district_edit',compact('edit_data','div_data'));
     }
+
+    public function DistrictEditShow($id){
+        $district = District::where('division_id',$id)->get();
+
+        return response()->json($district);
+
+    }
+
+
+
+
     public function DistrictUpdate(Request $request,$id){
         $update_data = District::find($id);
         $update_data->division_id = $request->division_id;
@@ -123,6 +135,7 @@ class ShippingController extends Controller
             'division_id' => $request->division_id,
             'district_id' => $request->district_id,
             'state_name' => $request->state_name,
+            'Shipping_charge' => $request->Shipping_charge,
             'created_at' => Carbon::now(),
         ]);
         $notification = array(
@@ -144,11 +157,21 @@ class ShippingController extends Controller
         $district = District::all();
         return view('admin.shipping.state.state_edit',compact('state','division','district'));
     }
+
+    public function StateEditShow($id){
+        $state = State::where('district_id',$id)->get();
+
+        return response()->json($state);
+
+    }
+
+
     public function stateUpdate(Request $request,$id){
         $edit_state = State::find($id);
         $edit_state->division_id = $request->division_id;
         $edit_state->district_id = $request->district_id;
-        $edit_state->state_name = $request->state_name;
+        $edit_state->state_name = $request->state_id;
+        $edit_state->Shipping_charge = $request->Shipping_charge;
         $edit_state->updated_at = Carbon::now();
 
         $edit_state->update();

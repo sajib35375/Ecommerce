@@ -22,12 +22,33 @@ class ProductController extends Controller
         return view('admin.product.add_product',compact('cat','brands','sub_cat'));
     }
     public function storeProduct(Request $request){
-        $image = $request->file('product_thumbnail');
 
+        $this->validate($request,[
+            'brand_id' => 'required',
+            'category_id' => 'required',
+            'subcategory_id' => 'required',
+            'sub_subcategory_id' => 'required',
+            'product_name_eng' => 'required',
+            'product_name_ban' => 'required',
+            'product_code' => 'required',
+            'product_quantity' => 'required',
+            'product_tags_eng' => 'required',
+            'product_tags_ban' => 'required',
+            'product_size_eng' => 'required',
+            'product_size_ban' => 'required',
+            'product_color_eng' => 'required',
+            'product_color_ban' => 'required',
+            'product_selling_price' => 'required',
+            'product_short_des_eng' => 'required',
+            'product_short_des_ban' => 'required',
+            'product_long_des_eng' => 'required',
+            'product_long_des_ban' => 'required',
+        ]);
+
+
+            $image = $request->file('product_thumbnail');
             $unique_name = hexdec(uniqid()).'.'.$image->getClientOriginalExtension();
             Image::make($image)->resize(917,1000)->save('images/thumbnail/'.$unique_name);
-            $last_name = 'images/thumbnail/'.$unique_name;
-
 
 
 
@@ -54,7 +75,7 @@ class ProductController extends Controller
                 'product_short_des_ban' => $request->product_short_des_ban,
                 'product_long_des_eng' => $request->product_long_des_eng,
                 'product_long_des_ban' => $request->product_long_des_ban,
-                'product_thumbnail' => $last_name,
+                'product_thumbnail' => $unique_name,
                 'featured' => $request->featured,
                 'hot_deals' => $request->hot_deals,
                 'special_offer' => $request->special_offer,
@@ -86,30 +107,55 @@ class ProductController extends Controller
     }
 //    manage product
     public function manageProduct(){
-        $products = Product::latest()->get();
+        $products = Product::orderBy('id','DESC')->get();
         return view('admin.product.manage_product',compact('products'));
     }
 
     public function editProduct($id){
+        $products = Product::find($id);
         $brands = Brand::latest()->get();
         $categories = Category::latest()->get();
-        $subcategory = SubCategory::latest()->get();
-        $subsubcategory = SubSubCategory::latest()->get();
-        $products = Product::find($id);
+        $subcategory = SubCategory::where('category_id',$products->category_id)->get();
+        $subsubcategory = SubSubCategory::where('subcategory_id',$products->subcategory_id)->get();
+
+
         $multi_img = MultiImg::where('product_id',$id)->get();
         return view('admin.product.edit_product',compact('brands','categories','subcategory','subsubcategory','products','multi_img'));
     }
     public function updateProduct(Request $request,$id){
+//            $unique_name='';
+//
+//            $this->validate($request,[
+//                'brand_id' => 'required',
+//                'category_id' => 'required',
+//                'subcategory_id' => 'required',
+//                'sub_subcategory_id' => 'required',
+//                'product_name_eng' => 'required',
+//                'product_name_ban' => 'required',
+//                'product_code' => 'required',
+//                'product_quantity' => 'required',
+//                'product_tags_eng' => 'required',
+//                'product_tags_ban' => 'required',
+//                'product_size_eng' => 'required',
+//                'product_size_ban' => 'required',
+//                'product_color_eng' => 'required',
+//                'product_color_ban' => 'required',
+//                'product_selling_price' => 'required',
+//                'product_short_des_eng' => 'required',
+//                'product_short_des_ban' => 'required',
+//                'product_long_des_eng' => 'required',
+//                'product_long_des_ban' => 'required',
+//            ]);
 
-        $image = $request->file('product_thumbnail');
-        $unique_name = hexdec(uniqid()).'.'.$image->getClientOriginalExtension();
-        Image::make($image)->resize(917,1000)->save('images/thumbnail/'.$unique_name);
-        $url_path = "images/thumbnail/".$unique_name;
-        if (file_exists($url_path)){
-            unlink($request->old_photo);
+
+
+        if ($request->hasFile('product_thumbnail')){
+            $image = $request->file('product_thumbnail');
+            $unique_name = hexdec(uniqid()).'.'.$image->getClientOriginalExtension();
+            Image::make($image)->resize(917,1000)->save('images/thumbnail/'.$unique_name);
 
         }else{
-            $url_path = "images/thumbnail/".$request->old_photo;
+            $unique_name = $request->old_photo;
         }
 
 
@@ -137,7 +183,7 @@ class ProductController extends Controller
         $update_data->product_short_des_ban = $request->product_short_des_ban;
         $update_data->product_long_des_eng = $request->product_long_des_eng;
         $update_data->product_long_des_ban = $request->product_long_des_ban;
-        $update_data->product_thumbnail = $url_path;
+        $update_data->product_thumbnail = $unique_name;
         $update_data->featured = $request->featured;
         $update_data->hot_deals = $request->hot_deals;
         $update_data->special_offer = $request->special_offer;
@@ -152,16 +198,18 @@ class ProductController extends Controller
     }
     public function updateMultiImg(Request $request){
         $imgs = $request->multi_img;
-        foreach ($imgs as $id=>$img){
-           $multi = MultiImg::find($id);
-           unlink($multi->image);
-           $unique_name = hexdec(uniqid()).'.'.$img->getClientOriginalExtension();
-           Image::make($img)->resize(917,1000)->save('images/multiple/'.$unique_name);
-           $multi_img = 'images/multiple/'.$unique_name;
+        if (is_array($imgs) || is_object($imgs)) {
+            foreach ($imgs as $id => $img) {
+                $multi = MultiImg::find($id);
+                unlink($multi->image);
+                $unique_name = hexdec(uniqid()) . '.' . $img->getClientOriginalExtension();
+                Image::make($img)->resize(917, 1000)->save('images/multiple/' . $unique_name);
+                $multi_img = 'images/multiple/' . $unique_name;
 
-           $multi->image = $multi_img;
-           $multi->updated_at = Carbon::now();
-           $multi->update();
+                $multi->image = $multi_img;
+                $multi->updated_at = Carbon::now();
+                $multi->update();
+            }
         }
         $notification = array(
             'message' => 'Multi Image updated successfully',
@@ -182,7 +230,7 @@ class ProductController extends Controller
     }
     public function deleteProduct($id){
         $delete_product = Product::find($id);
-            unlink($delete_product->product_thumbnail);
+            unlink('images/thumbnail/'.$delete_product->product_thumbnail);
         $delete_product->delete();
         $delete_multi = MultiImg::where('product_id',$id)->get();
         foreach ($delete_multi as $delete){

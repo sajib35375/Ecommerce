@@ -18,8 +18,9 @@
         <div class="container">
             <div class="row">
                 <div class="blog-page">
+                    @foreach( $all_post as $post )
                     <div class="col-md-9">
-                            @foreach( $all_post as $post )
+
                         <div class="blog-post  wow fadeInUp">
                             <a href="{{ route('post.details',$post->id) }}"><img class="img-responsive" src="{{ URL::to('') }}/images/blog/{{ $post->photo }}" alt=""></a>
                             <h1><a href="blog-details.html">@if( session()->get('language')=='english'){{ $post->title_eng }}@else{{ $post->title_ban }}@endif</a></h1>
@@ -28,18 +29,19 @@
                             <span class="date-time">{{ Carbon\Carbon::parse($post->created_at)->format('d F Y') }}</span>
                             <p>@if( session()->get('language')=='english'){!! Str::limit($post->long_des_eng,200) !!}@else{!! Str::limit($post->long_des_ban,200) !!}@endif</p>
 
-                            <a href="{{ route('post.details',$post->id) }}" class="btn btn-upper btn-primary read-more">read more</a>
+                            <a href="{{ route('post.details',$post->id) }}" class="btn  btn-primary read-more">read more</a>
 
                         </div>
 
-                        @endforeach
+
 
                         <div class="clearfix blog-pagination filters-container  wow fadeInUp" style="padding:0px; background:none; box-shadow:none; margin-top:15px; border:none">
 
-                            {{ $all_post->links('admin.blog.pagination') }}
+{{--                            {{ $post->links('admin.blog.pagination') }}--}}
 
                         </div><!-- /.filters-container -->
                     </div>
+                    @endforeach
                     <div class="col-md-3 sidebar">
 
 

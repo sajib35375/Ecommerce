@@ -269,9 +269,9 @@
         $('#adsearch').slideDown();
     }
 
-    function search_product_hide(){
-        $('#adsearch').slideUp();
-    }
+    // function search_product_hide(){
+    //     $('#adsearch').slideUp();
+    // }
 
 
 </script>

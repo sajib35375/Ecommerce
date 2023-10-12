@@ -5,7 +5,7 @@
             <div class="card">
                 @foreach( $products as $pro )
                     <a href="{{ route('product.details',$pro->id) }}">
-                <div class="list border-bottom"> <img style="width: 50px;height: 50px;" src="{{ asset($pro->product_thumbnail) }}" alt="">
+                <div class="list border-bottom"> <img style="width: 50px;height: 50px;" src="{{ URL::to('') }}/images/thumbnail/{{ $pro->product_thumbnail }}" alt="">
                     <div class="d-flex flex-column ml-3"> <span>{{ $pro->product_name_eng }}</span> <small></small> </div>
                 </div></a>
                 @endforeach

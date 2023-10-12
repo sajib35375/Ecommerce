@@ -1,6 +1,6 @@
 @extends('frontend.front_master')
 @section('content')
-
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
 
     <div class="breadcrumb">
@@ -298,7 +298,7 @@
                                             <div class="products">
                                                 <div class="product">
                                                     <div class="product-image">
-                                                        <div class="image"> <a href="{{ route('product.details',$product->id) }}"><img  src="{{ asset( $product->product_thumbnail ) }}" alt=""></a> </div>
+                                                        <div class="image"> <a href="{{ route('product.details',$product->id) }}"><img  src="{{ URL::to('') }}/images/thumbnail/{{ $product->product_thumbnail }}" alt=""></a> </div>
                                                         <!-- /.image -->
                                                         @php
                                                             $discount = $product->product_selling_price - $product->product_discount_price;
@@ -329,10 +329,11 @@
                                                         <div class="action">
                                                             <ul class="list-unstyled">
                                                                 <li class="add-cart-button btn-group">
-                                                                    <button class="btn btn-primary icon" data-toggle="dropdown" type="button"> <i class="fa fa-shopping-cart"></i> </button>
+                                                                    <button  modal_id="{{ $product->id }}" class="btn btn-primary icon modal_btn "  type="button"> <i class="fa fa-shopping-cart"></i> </button>
                                                                     <button class="btn btn-primary cart-btn" type="button">Add to cart</button>
                                                                 </li>
-                                                                <li class="lnk wishlist"> <a class="add-to-cart" href="detail.html" title="Wishlist"> <i class="icon fa fa-heart"></i> </a> </li>
+
+                                                                <button type="button" id="{{ $product->id }}" onclick="addToWishlist(this.id)" class="btn btn-primary icon modal_btn"  title="Wishlist"> <i class="icon fa fa-heart"></i> </button>
                                                                 <li class="lnk"> <a class="add-to-cart" href="detail.html" title="Compare"> <i class="fa fa-signal"></i> </a> </li>
                                                             </ul>
                                                         </div>
@@ -370,7 +371,7 @@
                                                 <div class="row product-list-row">
                                                     <div class="col col-sm-4 col-lg-4">
                                                         <div class="product-image">
-                                                            <a class="image"><a href="{{ route('product.details',$product->id) }}"> <img src="{{ asset($product->product_thumbnail) }}" alt=""></a> </div>
+                                                            <a class="image"><a href="{{ route('product.details',$product->id) }}"> <img src="{{ URL::to('') }}/images/thumbnail/{{ $product->product_thumbnail }}" alt=""></a> </div>
                                                         </div>
                                                         <!-- /.product-image -->
                                                     </div>
@@ -411,10 +412,11 @@
                                             </div>
                                             <!-- /.product-list -->
                                         </div>
+                                @endforeach
                                         <!-- /.products -->
                                     </div>
 
-                                    @endforeach
+
 
                                 </div>
                                 <!-- /.category-product -->

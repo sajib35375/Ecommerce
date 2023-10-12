@@ -57,43 +57,41 @@
 
                 </div>
                 <!-- /.box -->
+                <div class="col-md-4">
+
+                <div class="card">
+                    <div class="card-header">
+                        <h2>Add New Division</h2>
+                    </div>
+                    <div class="card-body">
 
 
 
-                       <div class="col-md-4">
-                           <h2>Add Division</h2>
-                           <hr>
-                           <div class="card-body">
-                               <form action="{{ route('division.store') }}" method="POST" >
-                                   @csrf
-                                   <div class="form-group">
-                                       <label for="#">Division Name</label>
-                                       <input name="division_name" class="form-control" type="text">
-                                       @error('division_name')
-                                       <span class="text-danger">{{ $message }}</span>
-                                       @enderror
-                                   </div>
+                                <form action="{{ route('division.store') }}" method="POST" >
+                                    @csrf
+                                    <div class="form-group">
+                                        <label for="#">Division Name</label>
+                                        <input name="division_name" class="form-control" type="text">
+                                        @error('division_name')
+                                        <span class="text-danger">{{ $message }}</span>
+                                        @enderror
+                                    </div>
 
-                                   <div class="form-group">
-                                       <input value="Add" class="btn btn-success" type="submit">
-                                   </div>
-                               </form>
-                           </div>
-                       </div>
+                                    <div class="form-group">
+                                        <input value="Add" class="btn btn-success" type="submit">
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
 
-
-
-
-
-
-
-
+                    </div>
+                </div>
 
 
             </div>
 
         </div>
-        </div>
+
     </section>
 
 

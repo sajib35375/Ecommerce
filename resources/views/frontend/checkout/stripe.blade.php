@@ -64,14 +64,16 @@
                                     <div class="">
                                         <ul class="nav nav-checkout-progress list-unstyled">
 
-                                            @if( Session::has('coupon') )
-                                                <li><strong>SubTotal :</strong>{{ $cartTotal }}</li>
+                                            @if( Session::has('coupon') && Session::has('charge'))
+                                                <li><strong>SubTotal :</strong>{{ Cart::subtotal() }}</li>
                                                 <li><strong>Coupon Name :</strong>{{ session()->get('coupon')['coupon_name'] }}</li>
                                                 <li><strong>Discount :</strong>{{ session()->get('coupon')['discount'] }}%</li>
                                                 <li><strong>Discount Amount :</strong>{{ session()->get('coupon')['discount_amount'] }}</li>
-                                                <li><strong>Grand Total :</strong>{{ session()->get('coupon')['total_price'] }}</li>
-                                            @else
-                                                <li><strong>SubTotal :</strong>{{ $cartTotal }}</li>
+                                                <li><strong>Shipping Charge :</strong>{{ session()->get('charge')['ship_charge'] }}</li>
+                                                <li><strong>Grand Total :</strong>{{ session()->get('coupon')['total_price'] + session()->get('charge')['ship_charge'] }}</li>
+                                            @elseif( Session::has('charge') )
+                                                <li><strong>SubTotal :</strong>{{ Cart::subtotal() }}</li>
+                                                <li><strong>Shipping Charge :</strong>{{ session()->get('charge')['ship_charge'] }}</li>
                                                 <li><strong>Grand Total :</strong>{{ $cartTotal }}</li>
                                             @endif
 

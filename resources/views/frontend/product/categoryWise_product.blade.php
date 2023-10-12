@@ -169,7 +169,7 @@
                             <div class="sidebar-widget  wow fadeInUp outer-top-vs ">
                                 <div id="advertisement" class="advertisement">
                                     <div class="item">
-                                        <div class="avatar"><img src="assets/images/testimonials/member1.png" alt="Image"></div>
+                                        <div class="avatar"><img src="{{ asset('frontend/assets/images/testimonials/member1.png') }}" alt="Image"></div>
                                         <div class="testimonials"><em>"</em> Vtae sodales aliq uam morbi non sem lacus port mollis. Nunc condime tum metus eud molest sed consectetuer.<em>"</em></div>
                                         <div class="clients_author">John Doe <span>Abc Company</span> </div>
                                         <!-- /.container-fluid -->
@@ -177,14 +177,14 @@
                                     <!-- /.item -->
 
                                     <div class="item">
-                                        <div class="avatar"><img src="assets/images/testimonials/member3.png" alt="Image"></div>
+                                        <div class="avatar"><img src="{{ asset('frontend/assets/images/testimonials/member3.png') }}" alt="Image"></div>
                                         <div class="testimonials"><em>"</em>Vtae sodales aliq uam morbi non sem lacus port mollis. Nunc condime tum metus eud molest sed consectetuer.<em>"</em></div>
                                         <div class="clients_author">Stephen Doe <span>Xperia Designs</span> </div>
                                     </div>
                                     <!-- /.item -->
 
                                     <div class="item">
-                                        <div class="avatar"><img src="assets/images/testimonials/member2.png" alt="Image"></div>
+                                        <div class="avatar"><img src="{{ asset('frontend/assets/images/testimonials/member2.png') }}" alt="Image"></div>
                                         <div class="testimonials"><em>"</em> Vtae sodales aliq uam morbi non sem lacus port mollis. Nunc condime tum metus eud molest sed consectetuer.<em>"</em></div>
                                         <div class="clients_author">Saraha Smith <span>Datsun &amp; Co</span> </div>
                                         <!-- /.container-fluid -->
@@ -307,7 +307,7 @@
                                                 <div class="products">
                                                     <div class="product">
                                                         <div class="product-image">
-                                                            <div class="image"> <a href="{{ route('product.details',$product->id) }}"><img  src="{{ asset( $product->product_thumbnail ) }}" alt=""></a> </div>
+                                                            <div class="image"> <a href="{{ route('product.details',$product->id) }}"><img  src="{{ URL::to('') }}/images/thumbnail/{{ $product->product_thumbnail }}" alt=""></a> </div>
                                                             <!-- /.image -->
                                                             @php
                                                                 $discount = $product->product_selling_price - $product->product_discount_price;
@@ -368,73 +368,73 @@
                             </div>
                             <!-- /.tab-pane -->
 
-                            <div class="tab-pane "  id="list-container">
-                                <div class="category-product">
+{{--                            <div class="tab-pane "  id="list-container">--}}
+{{--                                <div class="category-product">--}}
 
 
-                                    @foreach( $subcat_wise as $product )
-                                        <div class="category-product-inner wow fadeInUp">
-                                            <div class="products">
-                                                <div class="product-list product">
-                                                    <div class="row product-list-row">
-                                                        <div class="col col-sm-4 col-lg-4">
-                                                            <div class="product-image">
-                                                                <a class="image"><a href="{{ route('product.details',$product->id) }}"> <img src="{{ asset($product->product_thumbnail) }}" alt=""></a> </div>
-                                                        </div>
-                                                        <!-- /.product-image -->
-                                                    </div>
-                                                    <!-- /.col -->
-                                                    <div class="col col-sm-8 col-lg-8">
-                                                        <div class="product-info">
-                                                            <h3 class="name"><a href="{{ route('product.details',$product->id) }}">@if( session()->get('language') == 'english' ){{ $product->product_name_eng }} @else {{ $product->product_name_ban }} @endif</a></h3>
-                                                            <div class="rating rateit-small"></div>
-                                                            @if( $product->product_discount_price )
-                                                                <div class="product-price"> <span class="price"> {{ $product->product_discount_price  }} $</span> <span class="price-before-discount">{{ $product->product_selling_price  }}</span> </div>
-                                                            @else
-                                                                <div class="product-price"> <span class="price"> {{ $product->product_selling_price  }} </span>  </div>
-                                                        @endif
-                                                        <!-- /.product-price -->
-                                                            <div class="description m-t-10">@if( session()->get('language') == 'english' ){{ $product->product_short_des_eng }} @else {{ $product->product_short_des_ban }} @endif</div>
-                                                            <div class="cart clearfix animate-effect">
-                                                                <div class="action">
-                                                                    <ul class="list-unstyled">
-                                                                        <li class="add-cart-button btn-group">
-                                                                            <button class="btn btn-primary icon" data-toggle="dropdown" type="button"> <i class="fa fa-shopping-cart"></i> </button>
-                                                                            <button class="btn btn-primary cart-btn" type="button">Add to cart</button>
-                                                                        </li>
-                                                                        <li class="lnk wishlist"> <a class="add-to-cart" href="detail.html" title="Wishlist"> <i class="icon fa fa-heart"></i> </a> </li>
-                                                                        <li class="lnk"> <a class="add-to-cart" href="detail.html" title="Compare"> <i class="fa fa-signal"></i> </a> </li>
-                                                                    </ul>
-                                                                </div>
-                                                                <!-- /.action -->
-                                                            </div>
-                                                            <!-- /.cart -->
+{{--                                    @foreach( $subcat_wise as $product )--}}
+{{--                                        <div class="category-product-inner wow fadeInUp">--}}
+{{--                                            <div class="products">--}}
+{{--                                                <div class="product-list product">--}}
+{{--                                                    <div class="row product-list-row">--}}
+{{--                                                        <div class="col col-sm-4 col-lg-4">--}}
+{{--                                                            <div class="product-image">--}}
+{{--                                                                <a class="image"><a href="{{ route('product.details',$product->id) }}"> <img src="{{ URL::to('') }}/images/thumbnail/{{ $product->product_thumbnail }}" alt=""></a> </div>--}}
+{{--                                                        </div>--}}
+{{--                                                        <!-- /.product-image -->--}}
+{{--                                                    </div>--}}
+{{--                                                    <!-- /.col -->--}}
+{{--                                                    <div class="col col-sm-8 col-lg-8">--}}
+{{--                                                        <div class="product-info">--}}
+{{--                                                            <h3 class="name"><a href="{{ route('product.details',$product->id) }}">@if( session()->get('language') == 'english' ){{ $product->product_name_eng }} @else {{ $product->product_name_ban }} @endif</a></h3>--}}
+{{--                                                            <div class="rating rateit-small"></div>--}}
+{{--                                                            @if( $product->product_discount_price )--}}
+{{--                                                                <div class="product-price"> <span class="price"> {{ $product->product_discount_price  }} $</span> <span class="price-before-discount">{{ $product->product_selling_price  }}</span> </div>--}}
+{{--                                                            @else--}}
+{{--                                                                <div class="product-price"> <span class="price"> {{ $product->product_selling_price  }} </span>  </div>--}}
+{{--                                                        @endif--}}
+{{--                                                        <!-- /.product-price -->--}}
+{{--                                                            <div class="description m-t-10">@if( session()->get('language') == 'english' ){{ $product->product_short_des_eng }} @else {{ $product->product_short_des_ban }} @endif</div>--}}
+{{--                                                            <div class="cart clearfix animate-effect">--}}
+{{--                                                                <div class="action">--}}
+{{--                                                                    <ul class="list-unstyled">--}}
+{{--                                                                        <li class="add-cart-button btn-group">--}}
+{{--                                                                            <button class="btn btn-primary icon" data-toggle="dropdown" type="button"> <i class="fa fa-shopping-cart"></i> </button>--}}
+{{--                                                                            <button class="btn btn-primary cart-btn" type="button">Add to cart</button>--}}
+{{--                                                                        </li>--}}
+{{--                                                                        <li class="lnk wishlist"> <a class="add-to-cart" href="detail.html" title="Wishlist"> <i class="icon fa fa-heart"></i> </a> </li>--}}
+{{--                                                                        <li class="lnk"> <a class="add-to-cart" href="detail.html" title="Compare"> <i class="fa fa-signal"></i> </a> </li>--}}
+{{--                                                                    </ul>--}}
+{{--                                                                </div>--}}
+{{--                                                                <!-- /.action -->--}}
+{{--                                                            </div>--}}
+{{--                                                            <!-- /.cart -->--}}
 
-                                                        </div>
-                                                        <!-- /.product-info -->
-                                                    </div>
-                                                    <!-- /.col -->
-                                                </div>
-                                                <!-- /.product-list-row -->
-                                                <div class="tag new"><span>new</span></div>
-                                            </div>
-                                            <!-- /.product-list -->
-                                        </div>
-                                        <!-- /.products -->
-                                </div>
+{{--                                                        </div>--}}
+{{--                                                        <!-- /.product-info -->--}}
+{{--                                                    </div>--}}
+{{--                                                    <!-- /.col -->--}}
+{{--                                                </div>--}}
+{{--                                                <!-- /.product-list-row -->--}}
+{{--                                                <div class="tag new"><span>new</span></div>--}}
+{{--                                            </div>--}}
+{{--                                            <!-- /.product-list -->--}}
+{{--                                        </div>--}}
+{{--                                        <!-- /.products -->--}}
+{{--                                </div>--}}
 
-                                @endforeach
+{{--                                @endforeach--}}
 
-                            </div>
-                            <!-- /.category-product -->
-                        </div>
-                        <!-- /.tab-pane #list-container -->
+{{--                            </div>--}}
+{{--                            <!-- /.category-product -->--}}
+{{--                        </div>--}}
+{{--                        <!-- /.tab-pane #list-container -->--}}
                     </div>
                     <!-- /.tab-content -->
                     <div class="clearfix filters-container">
                         <div class="text-right">
                             <div class="pagination-container">
-                            {{ $subcat_wise->links() }}
+{{--                            {{ $subcat_wise->links() }}--}}
                             <!-- /.list-inline -->
                             </div>
                             <!-- /.pagination-container --> </div>

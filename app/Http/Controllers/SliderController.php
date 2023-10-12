@@ -20,17 +20,20 @@ class SliderController extends Controller
             'short_des_ban' => 'required',
             'slider_img' => 'required',
         ]);
-        $image = $request->file('slider_img');
-        $unique_name = hexdec(uniqid()).'.'.$image->getClientOriginalExtension();
-        Image::make($image)->resize(1200,628)->save('images/slider/'.$unique_name);
-        $img_name = 'images/slider/'.$unique_name;
+
+        if ($request->hasFile('slider_img')){
+            $image = $request->file('slider_img');
+            $unique_name = hexdec(uniqid()).'.'.$image->getClientOriginalExtension();
+            Image::make($image)->resize(1200,628)->save('images/slider/'.$unique_name);
+
+        }
 
         Slider::create([
                 'title_eng' => $request->title_eng,
                 'title_ban' => $request->title_ban,
                 'short_des_eng' => $request->short_des_eng,
                 'short_des_ban' => $request->short_des_ban,
-                'slider_img' => $img_name,
+                'slider_img' => $unique_name,
         ]);
         $notification = array(
             'message' => 'Slider Added Successfully',
@@ -46,17 +49,21 @@ class SliderController extends Controller
     public function SliderUpdate(Request $request,$id){
         $update_data = Slider::find($id);
 
-        $image = $request->file('slider_img');
-        $unique_name = hexdec(uniqid()).'.'.$image->getClientOriginalExtension();
-        Image::make($image)->resize(1200,628)->save('images/slider/'.$unique_name);
-        $img_name = 'images/slider/'.$unique_name;
+        if ($request->hasFile('slider_img')){
+            $image = $request->file('slider_img');
+            $unique_name = hexdec(uniqid()).'.'.$image->getClientOriginalExtension();
+            Image::make($image)->resize(1200,628)->save('images/slider/'.$unique_name);
+            unlink('images/slider/'.$request->old_photo);
+        }else{
+            $unique_name = $request->old_photo;
+        }
 
         $update_data->title_eng = $request->title_eng;
         $update_data->title_ban = $request->title_ban;
         $update_data->short_des_eng = $request->short_des_eng;
         $update_data->short_des_ban = $request->short_des_ban;
         $update_data->short_des_ban = $request->short_des_ban;
-        $update_data->slider_img = $img_name;
+        $update_data->slider_img = $unique_name;
         $update_data->update();
 
         $notification = array(

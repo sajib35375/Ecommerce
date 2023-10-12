@@ -61,7 +61,7 @@
                                                     <span class="badge badge-danger">inactive</span>
                                                 @endif
                                             </td>
-                                            <td><img style="width: 60px;height: 40px;" src="{{ asset($product->product_thumbnail) }}" alt=""></td>
+                                            <td><img style="width: 60px;height: 40px;" src="{{ URL::to('') }}/images/thumbnail/{{ $product->product_thumbnail }}" alt=""></td>
 
 
                                         </tr>

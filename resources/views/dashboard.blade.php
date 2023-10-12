@@ -4,7 +4,7 @@
     <div class="container">
         <div class="row">
             <div style="margin: auto;padding: 10px;" class="col-md-3">
-                <img style="height: 100%; width: 100%;border-radius: 50%;" src="{{ !empty($user_profile->profile_photo_path) ? url($user_profile->profile_photo_path) : url('images/joker.jpg') }}" alt="">
+                <img style="height: 270px; width: 270px;border-radius: 50%;margin: auto;display: block;" src="{{ !empty('images/user/'.$user_profile->profile_photo_path) ? url('images/user/'.$user_profile->profile_photo_path) : url('images/joker.jpg') }}" alt="">
                 <a class="btn btn-primary btn-block" href="{{ url('/dashboard') }}">Home</a>
                 <a class="btn btn-primary btn-block" href="{{ route('user.profile') }}">Profile Update</a>
                 <a class="btn btn-primary btn-block" href="{{ route('user.change.password') }}">Change Password</a>

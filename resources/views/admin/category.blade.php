@@ -23,7 +23,7 @@
                                         <th>Category Name English</th>
                                         <th>Category Name Bangla</th>
                                         <th>Category Icon</th>
-                                        <th>Action</th>
+                                        <th width="30%">Action</th>
 
                                     </tr>
                                     </thead>
@@ -61,39 +61,46 @@
                 </div>
                 <!-- /.box -->
 
-
                 <div class="col-md-4">
-                    <h2>Add Category</h2>
-                    <hr>
-                    <form action="{{ route('category.store') }}" method="POST" >
-                        @csrf
-                        <div class="form-group">
-                            <label for="#">Category Name English</label>
-                            <input name="name_en" class="form-control" type="text">
-                            @error('name_en')
-                            <span class="text-danger">{{ $message }}</span>
-                            @enderror
-                        </div>
-                        <div class="form-group">
-                            <label for="#">Category Name Bangla</label>
-                            <input name="name_ban" class="form-control" type="text">
-                            @error('name_ban')
-                            <span class="text-danger">{{ $message }}</span>
-                            @enderror
-                        </div>
-                        <div class="form-group">
-                            <label for="#">Category Icon</label>
-                            <input name="icon" class="form-control" type="text">
-                            @error('icon')
-                            <span class="text-danger">{{ $message }}</span>
-                            @enderror
-                        </div>
-                        <div class="form-group">
-                            <input value="Add" class="btn btn-success" type="submit">
-                        </div>
-                    </form>
-                </div>
+               <div class="card">
+                   <div class="card-header">
+                       <h2>Add New Category</h2>
+                   </div>
+                   <div class="card-body">
 
+                           <h2>Add Category</h2>
+                           <hr>
+                           <form action="{{ route('category.store') }}" method="POST" >
+                               @csrf
+                               <div class="form-group">
+                                   <label for="#">Category Name English</label>
+                                   <input name="name_en" class="form-control" type="text">
+                                   @error('name_en')
+                                   <span class="text-danger">{{ $message }}</span>
+                                   @enderror
+                               </div>
+                               <div class="form-group">
+                                   <label for="#">Category Name Bangla</label>
+                                   <input name="name_ban" class="form-control" type="text">
+                                   @error('name_ban')
+                                   <span class="text-danger">{{ $message }}</span>
+                                   @enderror
+                               </div>
+                               <div class="form-group">
+                                   <label for="#">Category Icon</label>
+                                   <input name="icon" class="form-control" type="text">
+                                   @error('icon')
+                                   <span class="text-danger">{{ $message }}</span>
+                                   @enderror
+                               </div>
+                               <div class="form-group">
+                                   <input value="Add" class="btn btn-success" type="submit">
+                               </div>
+                           </form>
+                       </div>
+
+                   </div>
+               </div>
 
 
 

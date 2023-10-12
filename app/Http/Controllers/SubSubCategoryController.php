@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Category;
+use App\Models\Product;
 use App\Models\SubCategory;
 use App\Models\SubSubCategory;
 use Illuminate\Http\Request;
@@ -76,4 +77,12 @@ class SubSubCategoryController extends Controller
         );
         return redirect()->back()->with($notification);
     }
+    public function SelectSubCategory_edit($id){
+        $subcat = SubCategory::where('category_id',$id)->get();
+        return json_encode($subcat);
+    }
+//    public function EditSubShow(){
+//       $product = SubCategory::all();
+//        return response()->json($product->category_id);
+//    }
 }

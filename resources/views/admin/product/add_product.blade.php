@@ -57,7 +57,7 @@
                                                     <div class="form-group">
                                                         <h5>SubCategory Name <span class="text-danger">*</span></h5>
                                                         <select name="subcategory_id" id="" class="form-control">
-                                                            <option class="disabled">Select</option>
+                                                            <option value="">Select</option>
                                                         </select>
                                                         @error('subcategory_id')
                                                         <span class="text-danger">{{ $message }}</span>
@@ -73,7 +73,7 @@
                                                    <div class="form-group">
                                                        <h5>SubSubCategory Name English<span class="text-danger">*</span></h5>
                                                        <select name="sub_subcategory_id" class="form-control">
-                                                           <option class="disabled" value="">Select</option>
+                                                           <option  value="">Select</option>
                                                        </select>
                                                        @error('sub_subcategory_id')
                                                        <span class="text-danger">{{ $message }}</span>
@@ -153,7 +153,7 @@
                                                     <div class="form-group">
                                                         <h5> Product Size English <span class="text-danger">*</span></h5>
 
-                                                        <input type="text" name="product_size_eng" data-role="tagsinput" value="Lorem,Ipsum,Amet" >
+                                                        <input type="text" name="product_size_eng" data-role="tagsinput" value="small,medium,large" >
                                                         @error('product_size_eng')
                                                         <span class="text-danger">{{ $message }}</span>
                                                         @enderror
@@ -163,7 +163,7 @@
                                                     <div class="form-group">
                                                         <h5> Product Size Bangla <span class="text-danger">*</span></h5>
 
-                                                        <input type="text" name="product_size_ban" data-role="tagsinput" value="Lorem,Ipsum,Amet" >
+                                                        <input type="text" name="product_size_ban" data-role="tagsinput" value="ছোট,মধ্যম,বড়" >
                                                         @error('product_size_ban')
                                                         <span class="text-danger">{{ $message }}</span>
                                                         @enderror
@@ -177,7 +177,7 @@
                                                     <div class="form-group">
                                                         <h5> Product Color English<span class="text-danger">*</span></h5>
 
-                                                        <input type="text" name="product_color_eng" data-role="tagsinput" value="Lorem,Ipsum,Amet" >
+                                                        <input type="text" name="product_color_eng" data-role="tagsinput" value="red,white,black" >
                                                         @error('product_color_eng')
                                                         <span class="text-danger">{{ $message }}</span>
                                                         @enderror
@@ -188,7 +188,7 @@
                                                     <div class="form-group">
                                                         <h5> Product color Bangla <span class="text-danger">*</span></h5>
 
-                                                        <input type="text" name="product_color_ban" data-role="tagsinput" value="Lorem,Ipsum,Amet" >
+                                                        <input type="text" name="product_color_ban" data-role="tagsinput" value="লাল,সাদা,কালো" >
                                                         @error('product_color_ban')
                                                         <span class="text-danger">{{ $message }}</span>
                                                         @enderror
@@ -224,7 +224,6 @@
                                                 <div class="col-md-4">
                                                     <div class="form-group">
                                                         <h5> Product Thumbnail <span class="text-danger">*</span></h5>
-
                                                         <input type="file" name="product_thumbnail" class="form-control-file" >
 
                                                         <img  id="image" src="" alt="">
@@ -254,6 +253,9 @@
                                                         <div class="controls">
                                                             <textarea name="product_short_des_eng" id="textarea" class="form-control" required placeholder="Short-description-eng"></textarea>
                                                         </div>
+                                                        @error('product_short_des_eng')
+                                                        <span class="text-danger">{{ $message }}</span>
+                                                        @enderror
                                                     </div>
                                                 </div>
                                                 <div class="col-md-6">
@@ -262,6 +264,9 @@
                                                         <div class="controls">
                                                             <textarea name="product_short_des_ban" id="textarea" class="form-control" required placeholder="Short-description-ban"></textarea>
                                                         </div>
+                                                        @error('product_short_des_ban')
+                                                        <span class="text-danger">{{ $message }}</span>
+                                                        @enderror
                                                     </div>
                                                 </div>
                                             </div>
@@ -276,7 +281,9 @@
                                                         <textarea id="editor1" name="product_long_des_eng" rows="10" cols="80">
                                                             Product Long Description English
                                                         </textarea>
-
+                                                        @error('product_long_des_eng')
+                                                        <span class="text-danger">{{ $message }}</span>
+                                                        @enderror
                                                     </div>
                                                 </div>
                                                 <div class="col-md-6">
@@ -286,7 +293,9 @@
                                                         <textarea id="editor2" name="product_long_des_ban" rows="10" cols="80">
                                                             Product Long Description Bangla
                                                         </textarea>
-
+                                                        @error('product_long_des_ban')
+                                                        <span class="text-danger">{{ $message }}</span>
+                                                        @enderror
                                                     </div>
                                                 </div>
                                             </div>

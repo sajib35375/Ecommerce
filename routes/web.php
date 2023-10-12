@@ -3,27 +3,60 @@
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+use Laravel\Socialite\Facades\Socialite;
+
+
+Route::get('/auth/redirect', function () {
+
+    return Socialite::driver('facebook')->redirect();
+});
+
+Route::get('/auth/callback', function () {
+    return Socialite::driver('facebook')
+        ->scopes(['read:user', 'public_repo'])
+        ->redirect();
+    $user = Socialite::driver('facebook')->user();
+
+    $token = $user->token;
+    $refreshToken = $user->refreshToken;
+    $expiresIn = $user->expiresIn;
+
+    // OAuth 1.0 providers...
+    $token = $user->token;
+    $tokenSecret = $user->tokenSecret;
+
+    // All providers...
+    $user->getId();
+    $user->getNickname();
+    $user->getName();
+    $user->getEmail();
+    $user->getAvatar();
+
+    $user = Socialite::driver('facebook')->userFromTokenAndSecret('575325453796151', '3e2b1802efe4a4d111b508cf544ee1f0');
+});
+
+
 
 
 
 Route::get('/', function () {
     return view('welcome');
-});
+    });
 Route::get('admin/login',[App\Http\Controllers\AdminController::class,'loginForm'])->name('admin.login');
 Route::post('admin/login',[App\Http\Controllers\AdminController::class,'store'])->name('admin.store');
 
 Route::group(['middleware'=>['auth:admin']],function(){
 
-    //Admin Route
-    Route::middleware(['auth:sanctum,admin', 'verified'])->get('/admin/dashboard', function () {
-        return view('admin.index');
+//Admin Route
+Route::middleware(['auth:sanctum,admin', 'verified'])->get('/admin/dashboard', function () {
+return view('admin.index');
     })->name('admin.dashboard');
-    Route::get('admin/logout',[App\Http\Controllers\AdminController::class,'destroy'])->name('admin.logout');
-    Route::get('admin/profile',[App\Http\Controllers\AdminProfileController::class,'AdminProfile'])->name('admin.profile');
-    Route::get('admin/profile/edit',[App\Http\Controllers\AdminProfileController::class,'AdminProfileEdit'])->name('admin.profile.edit');
-    Route::post('admin/profile/update/{id}',[App\Http\Controllers\AdminProfileController::class,'AdminProfileUpdate'])->name('admin.profile.update');
-    Route::get('admin/password/change',[App\Http\Controllers\AdminProfileController::class,'AdminPasswordChange'])->name('admin.password.change');
-    Route::post('admin/password/update',[App\Http\Controllers\AdminProfileController::class,'AdminPasswordUpdate'])->name('admin.password.update');
+Route::get('admin/logout',[App\Http\Controllers\AdminController::class,'destroy'])->name('admin.logout');
+Route::get('admin/profile',[App\Http\Controllers\AdminProfileController::class,'AdminProfile'])->name('admin.profile');
+Route::get('admin/profile/edit',[App\Http\Controllers\AdminProfileController::class,'AdminProfileEdit'])->name('admin.profile.edit');
+Route::post('admin/profile/update/{id}',[App\Http\Controllers\AdminProfileController::class,'AdminProfileUpdate'])->name('admin.profile.update');
+Route::get('admin/password/change',[App\Http\Controllers\AdminProfileController::class,'AdminPasswordChange'])->name('admin.password.change');
+Route::post('admin/password/update',[App\Http\Controllers\AdminProfileController::class,'AdminPasswordUpdate'])->name('admin.password.update');
 });
 
 Route::middleware(['auth:sanctum,web', 'verified'])->get('/dashboard', function () {
@@ -55,6 +88,7 @@ Route::get('category/delete/{id}',[App\Http\Controllers\CategoryController::clas
 Route::get('subcategory',[App\Http\Controllers\SubCategoryController::class,'AllSubCategory'])->name('all.subcategory');
 Route::post('subcategory/store',[App\Http\Controllers\SubCategoryController::class,'StoreSubCategory'])->name('store.subcategory');
 Route::get('sub-category/edit/{id}',[App\Http\Controllers\SubCategoryController::class,'EditSub'])->name('edit.sub');
+//Route::get('sub-category/edit/show/{id}',[App\Http\Controllers\SubCategoryController::class,'EditSubShow'])->name('edit.sub.show');
 Route::post('sub-category/update/{id}',[App\Http\Controllers\SubCategoryController::class,'UpdateSub'])->name('update.sub');
 Route::get('sub-category/delete/{id}',[App\Http\Controllers\SubCategoryController::class,'DeleteSub'])->name('delete.sub');
 //sub-subcategory
@@ -62,6 +96,7 @@ Route::get('sub-subcategory',[App\Http\Controllers\SubSubCategoryController::cla
 Route::get('show-subcategory/{id}',[App\Http\Controllers\SubSubCategoryController::class,'ShowSubCategory'])->name('show.subcategory');
 Route::post('sub-subcategory/store',[App\Http\Controllers\SubSubCategoryController::class,'SubSubCategory_store'])->name('sub.subcategory.store');
 Route::get('sub-subcategory/edit/{id}',[App\Http\Controllers\SubSubCategoryController::class,'SubSubCategory_edit'])->name('sub.subcategory.edit');
+Route::get('select-subcategory/{id}',[App\Http\Controllers\SubSubCategoryController::class,'SelectSubCategory_edit'])->name('select.subcategory.edit');
 Route::post('sub-subcategory/update/{id}',[App\Http\Controllers\SubSubCategoryController::class,'SubSubCategory_update'])->name('sub.subcategory.update');
 Route::get('sub-subcategory/delete/{id}',[App\Http\Controllers\SubSubCategoryController::class,'SubSubCategory_delete'])->name('sub.subcategory.delete');
 //products
@@ -111,14 +146,14 @@ Route::post('stripe/order',[App\Http\Controllers\StripeController::class,'Stripe
 Route::get('user/order',[App\Http\Controllers\OrderController::class,'UserOrder'])->name('user.order');
 Route::get('user/order/details/{id}',[App\Http\Controllers\OrderController::class,'OrderDetail'])->name('order.details');
 Route::get('invoice/download/{id}',[App\Http\Controllers\OrderController::class,'InvoiceDownload'])->name('invoice.download');
-Route::post('return/order/{id}',[App\Http\Controllers\OrderController::class,'ReturnOrder'])->name('return.order');
+Route::post('return/order/{id}',[App\Http\Controllers\OrderController::class,'ReturnOrder'])->name('return.order.send');
 Route::get('show/return/order',[App\Http\Controllers\OrderController::class,'ShowReturnOrder'])->name('show.return.order');
 Route::get('show/cancel/order',[App\Http\Controllers\OrderController::class,'ShowCancelOrder'])->name('show.cancel.order');
 Route::post('tracking/order',[App\Http\Controllers\AdminUserController::class,'TrackingOrder'])->name('tracking.order');
 
 });
 //CartPage Route
-Route::get('view/myCart',[App\Http\Controllers\CartPageController::class,'ViewMyCert'])->name('my.cart');
+Route::get('view/myCart/',[App\Http\Controllers\CartPageController::class,'ViewMyCert'])->name('my.cart');
 Route::get('load/myCart',[App\Http\Controllers\CartPageController::class,'LoadMyCert'])->name('load.my.cart');
 Route::get('remove/myCart/{id}',[App\Http\Controllers\CartPageController::class,'RemoveMyCart'])->name('remove.my.cart');
 Route::get('/cart/increment/{rowId}',[App\Http\Controllers\CartPageController::class,'cartIncrement'])->name('cart.increment');
@@ -141,6 +176,7 @@ Route::post('shipping/district/store',[App\Http\Controllers\ShippingController::
 Route::get('shipping/district/edit/{id}',[App\Http\Controllers\ShippingController::class,'DistrictEdit'])->name('edit.district');
 Route::post('shipping/district/update/{id}',[App\Http\Controllers\ShippingController::class,'DistrictUpdate'])->name('update.district');
 Route::get('shipping/district/delete/{id}',[App\Http\Controllers\ShippingController::class,'DistrictDelete'])->name('delete.district');
+Route::get('shipping/district/editShow/{id}',[App\Http\Controllers\ShippingController::class,'DistrictEditShow'])->name('district.edit.show');
 //shipping(state)
 Route::get('shipping/state',[App\Http\Controllers\ShippingController::class,'allState'])->name('all.state');
 Route::post('shipping/state/store',[App\Http\Controllers\ShippingController::class,'StateStore'])->name('store.state');
@@ -148,6 +184,7 @@ Route::get('district/show/{id}',[App\Http\Controllers\ShippingController::class,
 Route::get('state/edit/{id}',[App\Http\Controllers\ShippingController::class,'stateEdit'])->name('state.edit');
 Route::post('state/update/{id}',[App\Http\Controllers\ShippingController::class,'stateUpdate'])->name('state.update');
 Route::get('state/delete/{id}',[App\Http\Controllers\ShippingController::class,'stateDelete'])->name('state.delete');
+Route::get('state/editShow/{id}',[App\Http\Controllers\ShippingController::class,'StateEditShow'])->name('state.edit.show');
 //couponApply
 Route::post('couponApply',[App\Http\Controllers\CartController::class,'couponApply'])->name('apply.coupon');
 Route::get('coupon/calculation',[App\Http\Controllers\CartController::class,'couponCalculation'])->name('calculation.coupon');
@@ -222,9 +259,16 @@ Route::get('admin-user/delete/{id}',[App\Http\Controllers\AdminUserController::c
 //search
 Route::post('search',[App\Http\Controllers\HomeController::class,'SearchProduct'])->name('search.product');
 Route::post('advance/search',[App\Http\Controllers\HomeController::class,'AdvanceSearch'])->name('advance.search');
-
-
-
-
-
-
+//user edit delete
+Route::get('user/edit/{id}',[App\Http\Controllers\AdminProfileController::class,'UserEdit'])->name('user.edit');
+Route::post('user/update/{id}',[App\Http\Controllers\AdminProfileController::class,'UserUpdate'])->name('user.update');
+//shipping charge
+Route::get('show-district-name/{id}',[App\Http\Controllers\CartPageController::class,'ShowDistrict'])->name('show.district');
+// state name
+Route::get('show-state-name/{id}',[App\Http\Controllers\CartPageController::class,'showState'])->name('show.state');
+Route::get('show-shipping-charge/{id}',[App\Http\Controllers\CartPageController::class,'showShippingCharge'])->name('show.shipping.charge');
+Route::post('add-shipping-charge',[App\Http\Controllers\CartPageController::class,'addShipping'])->name('add.ship');
+Route::post('shipping/address',[App\Http\Controllers\CartPageController::class,'shippingAddress'])->name('shipping.address');
+//blog comment
+Route::post('store/comment',[App\Http\Controllers\CommentController::class,'commentStore'])->name('comment.store');
+Route::post('store/reply',[App\Http\Controllers\CommentController::class,'replyStore'])->name('reply.store');

@@ -57,7 +57,7 @@ class CashController extends Controller
             'email' => $request->email,
 
         ];
-        Mail::to($request->email)->send(new OrderMail($data));
+//        Mail::to($request->email)->send(new OrderMail($data));
 
         $carts = Cart::content();
 

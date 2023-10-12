@@ -1,6 +1,6 @@
 @extends('admin.admin_master')
 @section('admin')
-
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
 
 
@@ -61,10 +61,10 @@
                                                     <span class="badge badge-danger">inactive</span>
                                                 @endif
                                             </td>
-                                            <td><img style="width: 60px;height: 40px;" src="{{ asset($product->product_thumbnail) }}" alt=""></td>
+                                            <td><img style="width: 60px;height: 40px;" src="{{ URL::to('') }}/images/thumbnail/{{ $product->product_thumbnail }}" alt=""></td>
                                             <td>
-                                                <a class="btn btn-info" href="{{ route('edit.product',$product->id) }}"><i class="fa fa-edit"></i></a>
-                                                <a class="btn btn-danger" href="{{ route('delete.product',$product->id) }}"><i class="fa fa-trash"></i></a>
+                                                <a class="btn btn-info" id="editCatLOad" href="{{ route('edit.product',$product->id) }}"><i class="fa fa-edit"></i></a>
+                                                <a class="btn btn-danger"  href="{{ route('delete.product',$product->id) }}"><i class="fa fa-trash"></i></a>
                                                 @if( $product->status==1)
                                                     <a class="btn btn-danger" href="{{ route('inactive.product',$product->id) }}"><i class="fa fa-arrow-down"></i></a>
                                                 @else
@@ -114,7 +114,6 @@
         </div>
 
     </section>
-
 
 
 

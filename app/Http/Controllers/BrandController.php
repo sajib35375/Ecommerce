@@ -20,17 +20,19 @@ class BrandController extends Controller
             'image' => 'required',
         ]);
 
-        $image = $request->file('image');
-        $unique_name = hexdec(uniqid()).'.'.$image->getClientOriginalExtension();
-        Image::make($image)->resize(500,500)->save('images/brand/'.$unique_name);
-        $last_img = 'images/brand/'.$unique_name;
+        if ($request->hasFile('image')){
+            $image = $request->file('image');
+            $unique_name = hexdec(uniqid()).'.'.$image->getClientOriginalExtension();
+            Image::make($image)->resize(500,500)->save('images/brand/'.$unique_name);
+
+        }
 
         Brand::create([
             'brand_name_en' => $request->name_en,
             'brand_name_ban' => $request->name_ban,
             'brand_slug_en' => str::slug($request->name_en),
             'brand_slug_ban' => str::slug($request->name_ban),
-            'brand_image' => $last_img,
+            'brand_image' => $unique_name,
         ]);
         $notification = array(
 
@@ -47,16 +49,21 @@ class BrandController extends Controller
     public function brandUpdate(Request $request,$id){
         $update_data = Brand::find($id);
 
-        $image = $request->file('image');
-        $unique_name = hexdec(uniqid()).'.'.$image->getClientOriginalExtension();
-        Image::make($image)->resize(500,500)->save('images/brand/'.$unique_name);
-        $last_img = 'images/brand/'.$unique_name;
+        $unique_name= '';
+       if ($request->hasFile('image')){
+           $image = $request->file('image');
+           $unique_name = hexdec(uniqid()).'.'.$image->getClientOriginalExtension();
+           Image::make($image)->resize(500,500)->save('images/brand/'.$unique_name);
+            unlink('images/brand/'.$request->old_image);
+       }else{
+           $unique_name = $request->old_image;
+       }
 
         $update_data->brand_name_en = $request->name_en;
         $update_data->brand_slug_en = str::slug($request->name_en);
         $update_data->brand_name_ban = $request->name_ban;
         $update_data->brand_slug_ban = str::slug($request->name_ban);
-        $update_data->brand_image = $last_img;
+        $update_data->brand_image = $unique_name;
         $update_data->update();
 
         $notification = array(
@@ -69,8 +76,13 @@ class BrandController extends Controller
     public function brandDelete($id){
         $delete_brand = Brand::find($id);
         $delete_brand->delete();
+        unlink('images/brand/'.$delete_brand->brand_image);
 
-        return redirect()->back()->with('success','brand deleted successfully');
+        $notification = array(
+            'message' => 'brand deleted successfully',
+            'alert_type' => 'success'
+        );
+        return redirect()->back()->with($notification);
     }
 
 }

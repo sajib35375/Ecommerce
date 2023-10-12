@@ -4,7 +4,7 @@
     <div class="container">
         <div class="row">
             <div class="col-md-3">
-                <img style="height: 100%; width: 100%;border-radius: 50%;" src="{{ !empty($user_profile->profile_photo_path) ? url($user_profile->profile_photo_path) : url('images/joker.jpg') }}" alt="">
+                <img style="height: 100%; width: 100%;border-radius: 50%;" src="{{ !empty('images/profile/'.$user_profile->profile_photo_path) ? url('images/profile/'.$user_profile->profile_photo_path) : url('images/joker.jpg') }}" alt="">
                 <a class="btn btn-primary btn-block" href="{{ url('/dashboard') }}">Home</a>
                 <a class="btn btn-primary btn-block" href="{{ route('user.profile') }}">Profile Update</a>
                 <a class="btn btn-primary btn-block" href="{{ route('user.change.password') }}">Change Password</a>
@@ -126,7 +126,7 @@
                             <tr>
                                 <td>{{ $item->product->product_name_eng }}</td>
                                 <td>{{ $item->product->product_code }}</td>
-                                <td><img src="{{ asset($item->product->product_thumbnail) }}" alt="" width="50px;" height="50px;"></td>
+                                <td><img src="{{ URL::to('') }}/images/thumbnail/{{ $item->product->product_thumbnail }}" alt="" width="50px;" height="50px;"></td>
                                 <td>{{ $item->color }}</td>
                                 <td>{{ $item->size }}</td>
                                 <td>{{ $item->quantity }}</td>
@@ -144,7 +144,7 @@
                     $return_order = \App\Models\Order::where('id',$order->id)->where('return_reason','=',NULL)->first();
                 @endphp
             @if( $return_order )
-                <form action="{{ route('return.order',$order->id) }}" method="POST">
+                <form action="{{ route('return.order.send',$order->id) }}" method="POST">
                     @csrf
                 <div class="form-group">
                     <label for="">Return Reason</label>
